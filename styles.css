@@ -87,3 +87,26 @@ body {
     height: 100%;
     object-fit: cover;
 }
+.button {
+    background-color: gray; /* Button background color */
+    border: none; /* Remove border */
+    color: white; /* Text color */
+    padding: 15px 32px; /* Padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Display as inline block */
+    font-size: 16px; /* Font size */
+    margin: 20px; /* Margin */
+    cursor: pointer; /* Cursor style */
+    border-radius: 10px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+    width: 200px; /* Set width */
+    height: 50px; /* Set height */
+}
+
+
+
+
+.button:hover {
+    background-color: rgb(185, 0, 0); /* Darker green background on hover */
+}
