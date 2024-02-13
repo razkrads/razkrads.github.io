@@ -19,7 +19,10 @@
             <!-- Front side of the card -->
             <div class="card-front">
                 <!-- Your round picture goes here with the class 'round-image' -->
+                <div class="image-container">
                 <img src="pic.png" alt="Your Picture" class="round-image">
+                <img src="klick-click.gif" alt="Your Picture" class="klick-click-image">
+                </div>
                 <p>Rasmus Vestergaard Knudsen</p>
                 <p>Email: rasmusvk@hotmail.com</p>
                 <p>Phone: 50460054</p>
@@ -45,6 +48,7 @@
         function flipCard(element) {
             var cardBack = element.querySelector('.card-back');
             var cardFront = element.querySelector('.card-front');
+            var klickClick = element.querySelector('.klick-click-image');
 
             // Toggle the flip state
             isFlipped = !isFlipped;
@@ -58,6 +62,9 @@
                 cardBack.style.display = 'none';
                 cardFront.style.display = 'block';
             }
+
+            klickClick.style.display = 'none';
+            
 
             // Flip the card by rotating it
         }

@@ -12,7 +12,7 @@ body {
     perspective: 1000px; /* Perspective for 3D effect */
     width: 250px; /* Adjust width as needed */
     padding: 60px; /* Add padding for better appearance */
-    background-color: #333;
+    background-color: #1f1f1f;
     color: #fff; /* White text color */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box-shadow for depth */
@@ -48,12 +48,28 @@ body {
     align-items: center; /* Center items horizontally */
 }
 
+.image-container {
+    position: relative;
+}
+
 /* Center the picture */
 .round-image {
     border-radius: 50%;
     width: 150px;
     height: 150px;
-    background-color: black;
+    position: relative;
+    z-index: 1;
+    background-color: #1f1f1f;
+}
+
+.klick-click-image {
+    display: none;
+    position: absolute;
+    top: 25px;
+    left: 30px;
+    z-index: 2;
+    width: 100px;
+    height: 100px;
 }
 
 /* Adjust text styles */
@@ -67,9 +83,12 @@ body {
 }
 
 .contact-card:hover {
-    background-color: black;
+    background-color: #1f1f1f;
     .round-image {
-        background-color: #333;
+        background-color: #4E4E4E;
+    }
+    .klick-click-image {
+        display: block;
     }
     
 }
