@@ -12,7 +12,7 @@ body {
     perspective: 1000px; /* Perspective for 3D effect */
     width: 250px; /* Adjust width as needed */
     padding: 60px; /* Add padding for better appearance */
-    background-color: #333 !important;
+    background-color: #333;
     color: #fff; /* White text color */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box-shadow for depth */
@@ -66,6 +66,13 @@ body {
     overflow: hidden; /* Hide any overflowing text */
 }
 
+.contact-card:hover {
+    background-color: black;
+    .round-image {
+        background-color: #333;
+    }
+    
+}
 
 /* Additional styling for other content if needed */
 
