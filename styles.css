@@ -1,0 +1,89 @@
+body {
+    font-family: 'Roboto', sans-serif; /* Use Roboto font */
+}
+
+
+/* CSS for the initial appearance */
+.contact-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    perspective: 1000px; /* Perspective for 3D effect */
+    width: 250px; /* Adjust width as needed */
+    padding: 60px; /* Add padding for better appearance */
+    background-color: #333 !important;
+    color: #fff; /* White text color */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box-shadow for depth */
+    text-align: center; /* Center text */
+    cursor: pointer; /* Change cursor to indicate clickability */
+    overflow: hidden; /* Ensure the inner content does not overflow */
+}
+
+.card-inner {
+    position: relative; /* Change to relative positioning */
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+
+
+.card-front,
+.card-back {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+}
+
+/* Center the content inside .card-front */
+.card-front {
+    display: flex; /* Use flexbox for centering */
+    flex-direction: column; /* Align items vertically */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+}
+
+/* Center the picture */
+.round-image {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    background-color: black;
+}
+
+/* Adjust text styles */
+.contact-card h2 {
+    margin: 0; /* Remove margin to prevent extra space */
+    font-size: 16px; /* Adjust font size as needed */
+    font-weight: normal; /* Set font weight to normal */
+    line-height: 1.5; /* Set line height for better readability */
+    white-space: nowrap; /* Prevent text from wrapping onto multiple lines */
+    overflow: hidden; /* Hide any overflowing text */
+}
+
+
+/* Additional styling for other content if needed */
+
+
+/* Additional styling for other content if needed */
+
+
+.gif {
+    position: fixed; /* Fixed positioning */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1; /* Behind other content */
+}
+.gif img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

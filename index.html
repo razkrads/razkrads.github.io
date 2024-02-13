@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Add CSS styles here */
+        .card-back {
+            display: none; /* Initially hide the back side */
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-card" onclick="flipCard(this)">
+        <div class="card-inner">
+            <!-- Front side of the card -->
+            <div class="card-front">
+                <!-- Your round picture goes here with the class 'round-image' -->
+                <img src="pic.png" alt="Your Picture" class="round-image">
+                <p>Rasmus Vestergaard Knudsen</p>
+                <p>Email: rasmusvk@hotmail.com</p>
+                <p>Phone: 50460054</p>
+            </div>
+            <!-- Back side of the card -->
+            <div class="card-back" display="block">
+                <p>Address: Nørrebrogade 1, 1. th</p>
+                <p>Zip: 2200</p>
+                <p>City: København N</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="gif">
+        <img src="cards.gif" alt="gif">
+    </div>
+
+    <script>
+        var isFlipped = false;
+        function flipCard(element) {
+            var cardBack = element.querySelector('.card-back');
+            var cardFront = element.querySelector('.card-front');
+
+            // Toggle the flip state
+            isFlipped = !isFlipped;
+
+            if (isFlipped) {
+                // If flipped, show the back side
+                cardBack.style.display = 'block';
+                cardFront.style.display = 'none';
+            } else {
+                // If not flipped, hide the back side
+                cardBack.style.display = 'none';
+                cardFront.style.display = 'block';
+            }
+
+            // Flip the card by rotating it
+        }
+    </script>
+</body>
+</html>
