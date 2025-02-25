@@ -1,73 +1,1483 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Page Title</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>ASP - Aarhus Studenterradio & Podcast</title>
     <style>
-        /* Add CSS styles here */
-        .card-back {
-            display: none; /* Initially hide the back side */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@300;400;600;800&display=swap');
+        
+        :root {
+            --primary: #0A5600; /* Dark green from logo */
+            --primary-darker: #073f00;
+            --secondary: #F5F5DC; /* Cream/ivory from logo */
+            --dark: #0c0c0c;
+            --light: #FFFFFF;
+            --gradient: linear-gradient(135deg, #0A5600 0%, #0F7A00 100%);
+            --shadow: 0 20px 40px rgba(10, 86, 0, 0.12);
+            --glass-bg: rgba(245, 245, 220, 0.09);
+            --glass-border: rgba(245, 245, 220, 0.13);
+            --uni-liv-color: #AF0000;
+            --profundis-color: #D88C39;
+            --pjaek-color: #E4017E;
+            --den-abne-color: #F7BF00;
+            --glitch-intensity: 15px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Work Sans', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--secondary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            cursor: default;
+        }
+        
+        ::selection {
+            background: var(--primary);
+            color: var(--light);
+        }
+        
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 2000;
+        }
+        
+        .cursor-follower {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            background: rgba(10, 86, 0, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+            display: none;
+        }
+        
+        
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+        
+        header {
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            mix-blend-mode: difference;
+        }
+        
+        header.scrolled {
+            padding: 0.5rem 0;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: rgba(10, 86, 0, 0.85);
+            mix-blend-mode: normal;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .logo-image {
+            height: 80px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: invert(1);
+            mix-blend-mode: difference;
+        }
+        
+        header.scrolled .logo-image {
+            height: 60px;
+            filter: none;
+            mix-blend-mode: normal;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+        
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Space Mono', monospace;
+            overflow: hidden;
+            padding: 5px 0;
+        }
+        
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary);
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+        
+        .nav-links a:hover::before {
+            transform: translateX(0);
+        }
+        
+        .nav-links a:hover {
+            color: var(--light);
+        }
+        
+        .mobile-toggle {
+            display: none;
+            cursor: pointer;
+            z-index: 100;
+        }
+        
+        .line {
+            width: 30px;
+            height: 3px;
+            background: var(--secondary);
+            margin: 6px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: -80px; /* Adjust for header overlapping hero */
+            padding-top: 80px;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            overflow: hidden;
+        }
+        
+        .hero-glitch {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/api/placeholder/1920/1080') center/cover no-repeat;
+            background-color: var(--primary);
+            filter: brightness(0.4) saturate(0.5) contrast(1.2) hue-rotate(5deg);
+            animation: glitchEffect 10s infinite;
+            background-blend-mode: luminosity;
+        }
+        
+        .hero-glitch::before,
+        .hero-glitch::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+        }
+        
+        .hero-glitch::before {
+            left: var(--glitch-intensity);
+            background-color: rgba(255, 0, 0, 0.2);
+            filter: blur(4px);
+            mix-blend-mode: lighten;
+            animation: glitchOffset 4s infinite alternate;
+        }
+        
+        .hero-glitch::after {
+            left: calc(var(--glitch-intensity) * -1);
+            background-color: rgba(0, 255, 255, 0.2);
+            filter: blur(4px);
+            mix-blend-mode: lighten;
+            animation: glitchOffset 4s infinite alternate-reverse;
+        }
+        
+        @keyframes glitchEffect {
+            0%, 100% { transform: translate(0); }
+            97% { transform: translate(0); }
+            98% { transform: translate(-5px, 5px); }
+            99% { transform: translate(5px, -5px); }
+        }
+        
+        @keyframes glitchOffset {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(calc(var(--glitch-intensity) * -0.5)); }
+        }
+        
+        .hero-dots {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(
+                    rgba(245, 245, 220, 0.07) 1px, 
+                    transparent 1px
+                );
+            background-size: 25px 25px;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            color: var(--light);
+            display: inline-block;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+        
+        .hero-title::before,
+        .hero-title::after {
+            content: attr(data-text);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            color: var(--light);
+            overflow: hidden;
+        }
+        
+        .hero-title::before {
+            left: -2px;
+            text-shadow: -1px 0 red;
+            animation: glitch-effect-1 3s infinite linear alternate-reverse;
+        }
+        
+        .hero-title::after {
+            left: 2px;
+            text-shadow: 1px 0 blue;
+            animation: glitch-effect-2 2s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-effect-1 {
+            0%, 5%, 10%, 15%, 50%, 55%, 60%, 65%, 70%, 100% {
+                clip-path: inset(0 0 0 0);
+            }
+            20% {
+                clip-path: inset(20% 0 0 0);
+            }
+            25% {
+                clip-path: inset(0 0 20% 0);
+            }
+            30% {
+                clip-path: inset(0 20% 0 0);
+            }
+            35% {
+                clip-path: inset(0 0 0 20%);
+            }
+            40% {
+                clip-path: inset(50% 10% 0 0);
+            }
+            45% {
+                clip-path: inset(0 0 10% 30%);
+            }
+            75% {
+                clip-path: inset(10% 0 50% 0);
+            }
+            80% {
+                clip-path: inset(0 10% 0 50%);
+            }
+            85% {
+                clip-path: inset(0 20% 30% 0);
+            }
+            90% {
+                clip-path: inset(30% 0 0 20%);
+            }
+            95% {
+                clip-path: inset(20% 30% 10% 0);
+            }
+        }
+        
+        @keyframes glitch-effect-2 {
+            0%, 15%, 25%, 35%, 50%, 65%, 75%, 85%, 100% {
+                clip-path: inset(0 0 0 0);
+            }
+            5% {
+                clip-path: inset(30% 0 0 0);
+            }
+            10% {
+                clip-path: inset(0 10% 0 0);
+            }
+            20% {
+                clip-path: inset(0 0 30% 0);
+            }
+            30% {
+                clip-path: inset(0 0 0 10%);
+            }
+            40% {
+                clip-path: inset(50% 0 0 30%);
+            }
+            45% {
+                clip-path: inset(0 20% 40% 0);
+            }
+            55% {
+                clip-path: inset(10% 0 0 0);
+            }
+            60% {
+                clip-path: inset(0 40% 0 0);
+            }
+            70% {
+                clip-path: inset(0 0 10% 0);
+            }
+            80% {
+                clip-path: inset(0 0 0 5%);
+            }
+            90% {
+                clip-path: inset(20% 10% 0 10%);
+            }
+            95% {
+                clip-path: inset(5% 0 15% 0);
+            }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            color: var(--secondary);
+            opacity: 0.9;
+            max-width: 700px;
+            font-weight: 300;
+            margin: 0 auto 2.5rem;
+        }
+        
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background-color: transparent;
+            color: var(--light);
+            border: 1px solid var(--secondary);
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 400;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            z-index: -1;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .cta-button:hover {
+            color: var(--light);
+            border-color: var(--primary);
+        }
+        
+        .cta-button:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 5;
+        }
+        
+        .scroll-text {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.7;
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .scroll-arrow {
+            position: relative;
+            width: 24px;
+            height: 24px;
+        }
+        
+        .scroll-arrow::before,
+        .scroll-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 16px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+        
+        .scroll-arrow::before {
+            right: 50%;
+            transform: rotate(45deg);
+            transform-origin: right bottom;
+        }
+        
+        .scroll-arrow::after {
+            left: 50%;
+            transform: rotate(-45deg);
+            transform-origin: left bottom;
+        }
+        
+        @keyframes scrollAnimation {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(10px);
+            }
+            60% {
+                transform: translateY(5px);
+            }
+        }
+        
+        .scroll-arrow {
+            animation: scrollAnimation 2s infinite;
+        }
+        
+        section {
+            padding: 8rem 0;
+            position: relative;
+        }
+        
+        .section-title {
+            margin-bottom: 5rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: rgba(245, 245, 220, 0.7);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            width: 80px;
+            height: 3px;
+            background: var(--gradient);
+            transform: translateX(-50%);
+        }
+        
+        /* New podcast section with grid layout */
+        .podcast-section {
+            background-color: var(--dark);
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 10rem;
+        }
+        
+        .podcast-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, var(--primary-darker) 0%, transparent 50%);
+            opacity: 0.05;
+        }
+        
+        .podcast-list {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            /* Updated from minmax(500px, 1fr) to a more flexible 350px minimum */
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .podcast-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+        
+        .podcast-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(245, 245, 220, 0.3);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .podcast-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--primary);
+            z-index: 2;
+        }
+        
+        /* Updated border colors to match the podcast content order */
+        .podcast-card:nth-child(1)::before {
+            background: var(--den-abne-color);
+        }
+        
+        .podcast-card:nth-child(2)::before {
+            background: var(--profundis-color);
+        }
+        
+        .podcast-card:nth-child(3)::before {
+            background: var(--uni-liv-color);
+        }
+        
+        .podcast-thumbnail {
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            flex-shrink: 0;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 10px;
+        }
+        
+        .podcast-card:hover .podcast-thumbnail {
+            transform: scale(1.05) rotate(2deg);
+        }
+        
+        .podcast-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .podcast-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .podcast-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: rgba(245, 245, 220, 0.3);
+            transition: width 0.3s ease;
+        }
+        
+        .podcast-card:hover .podcast-title::after {
+            width: 100%;
+        }
+        
+        .podcast-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.2rem;
+            color: rgba(245, 245, 220, 0.6);
+            font-size: 0.85rem;
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .podcast-description {
+            color: rgba(245, 245, 220, 0.8);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            flex-grow: 1;
+        }
+        
+        .play-now {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Space Mono', monospace;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            align-self: center;
+            margin-top: auto;
+        }
+        
+        .play-now::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .play-now:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .shows-section {
+            background-color: var(--dark);
+            padding-top: 8rem;
+            padding-bottom: 8rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shows-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(10, 86, 0, 0.05) 25%, transparent 50%, rgba(10, 86, 0, 0.05) 75%, transparent 100%);
+            animation: gradientMove 15s linear infinite;
+        }
+        
+        @keyframes gradientMove {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        .shows-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 3rem;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .show-card {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border-radius: 12px;
+            height: 100%;
+        }
+        
+        .show-card:hover {
+            transform: translateY(-15px);
+            background: var(--glass-bg);
+            border-color: rgba(245, 245, 220, 0.3);
+        }
+        
+        .show-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(10, 86, 0, 0.05) 0%, transparent 100%);
+            z-index: -1;
+        }
+        
+        .show-image {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        
+        .show-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .show-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+        
+        .show-host {
+            font-size: 0.95rem;
+            color: rgba(245, 245, 220, 0.6);
+            margin-bottom: 1.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .show-description {
+            color: rgba(245, 245, 220, 0.8);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            font-weight: 300;
+            flex-grow: 1;
+        }
+        
+        .team-section {
+            background-color: var(--dark);
+            position: relative;
+            padding-top: 5rem;
+            overflow: hidden;
+        }
+        
+        .team-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-darker) 0%, transparent 70%);
+            opacity: 0.07;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .team-member {
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+        
+        .team-photo {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            border-radius: 50%;
+        }
+        
+        .photo-inner {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 50%;
+        }
+        
+        .team-member:hover .photo-inner img {
+            transform: scale(1.05);
+        }
+        
+        .photo-inner img {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+   
+        
+        .team-member:hover .team-photo::after {
+            width: 100%;
+        }
+        
+        .team-name {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+        
+        .team-role {
+            color: rgba(245, 245, 220, 0.7);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .team-bio {
+            color: rgba(245, 245, 220, 0.8);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            max-width: 90%;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(245, 245, 220, 0.3);
+            background: transparent;
+            color: var(--secondary);
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
+        footer {
+            background-color: var(--primary-darker);
+            color: var(--secondary);
+            padding: 5rem 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            position: relative;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 30px;
+            height: 2px;
+            background: var(--secondary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links a {
+            color: rgba(245, 245, 220, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            padding-left: 0;
+        }
+        
+        .footer-links a::before {
+            content: '→';
+            position: absolute;
+            left: -20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+            padding-left: 20px;
+        }
+        
+        .footer-links a:hover::before {
+            opacity: 1;
+            left: 0;
+        }
+        
+        .contact-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            color: rgba(245, 245, 220, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            color: var(--secondary);
+        }
+        
+        .contact-icon {
+            flex-shrink: 0;
+            color: var(--secondary);
+        }
+        
+        .footer-bottom {
+            margin-top: 5rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(245, 245, 220, 0.1);
+            text-align: center;
+            color: rgba(245, 245, 220, 0.5);
+            font-size: 0.9rem;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 1px;
+        }
+        
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 3.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 3rem;
+            }
+            
+            .podcast-list {
+                /* Optionally adjust for mid-sized screens if needed */
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                background: var(--primary-darker);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 3rem;
+                transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 99;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links a {
+                font-size: 1.5rem;
+                margin: 1rem 0;
+            }
+            
+            .mobile-toggle {
+                display: block;
+                z-index: 100;
+            }
+            
+            .mobile-toggle.active .line:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 9px);
+            }
+            
+            .mobile-toggle.active .line:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .mobile-toggle.active .line:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -9px);
+            }
+            
+            .hero-content {
+                margin-left: 0;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            /* Instead of altering .podcast-card, force the podcast list to a single column */
+            .podcast-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .podcast-thumbnail {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1/1;
+                margin-bottom: 1.5rem;
+            }
+            
+            .team-grid {
+                gap: 3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+                padding-left: 1rem;
+            }
+            
+            .cta-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title p {
+                font-size: 1rem;
+                padding-left: 1rem;
+            }
+            
+            .shows-grid, .team-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .podcast-title {
+                font-size: 1.5rem;
+            }
+            
+            .podcast-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .footer-content {
+                gap: 2.5rem;
+            }
         }
     </style>
+    
 </head>
 <body>
-    <div class="contact-card" onclick="flipCard(this)">
-        <div class="card-inner">
-            <!-- Front side of the card -->
-            <div class="card-front">
-                <!-- Your round picture goes here with the class 'round-image' -->
-                <div class="image-container">
-                <img src="pic.png" alt="Your Picture" class="round-image">
-                <img src="klick-click.gif" alt="Your Picture" class="klick-click-image">
+    <div class="noise-overlay"></div>
+    
+    <header>
+        <div class="container">
+            <div class="navbar">
+          
+                
+                <div class="nav-links">
+                    <a href="#hjem">Hjem</a>
+                    <a href="#programmer">Programmer</a>
+                    <a href="#podcasts">Podcasts</a>
+                    <a href="#team">Holdet</a>
+                    <a href="#kontakt">Kontakt</a>
                 </div>
-                <p>Rasmus Vestergaard Knudsen</p>
-                <p>Email: rasmusvk@hotmail.com</p>
-                <p>Phone: 50460054</p>
-            </div>
-            <!-- Back side of the card -->
-            <div class="card-back" display="block">
-                <button class="button">About me</button>
-                <button class="button">Projects</button>
-                <button onclick="window.open('CV_RVK.pdf', '_blank');" class="button">CV</button>
-
-
-
+                
+                <div class="mobile-toggle">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="gif">
-        <img src="cards.gif" alt="gif">
-    </div>
+    </header>
 
-    <script>
-        var isFlipped = false;
-        function flipCard(element) {
-            var cardBack = element.querySelector('.card-back');
-            var cardFront = element.querySelector('.card-front');
-            var klickClick = element.querySelector('.klick-click-image');
+    <section class="hero-section" id="hjem">
+        <div class="hero-bg"></div>
+        <div class="hero-glitch"></div>
+        <div class="hero-dots">
+            <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                <source src="7586488-hd_1920_1080_24fps.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title" data-text="AARHUS STUDENTERRADIO OG PODCAST">AARHUS STUDENTERRADIO OG PODCAST</h1>
+                <p class="hero-subtitle">PLACEHOLDER</p>
+                <a href="#podcasts" class="cta-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M17 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <line x1="19" y1="8" x2="19" y2="14"></line>
+                        <line x1="16" y1="11" x2="22" y2="11"></line>
+                      </svg>
+                      
+                    BLIV MEDLEM
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-text">Scroll Ned</div>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
 
-            // Toggle the flip state
-            isFlipped = !isFlipped;
+    <!-- HTML Markup -->
+  
 
-            if (isFlipped) {
-                // If flipped, show the back side
-                cardBack.style.display = 'block';
-                cardFront.style.display = 'none';
-            } else {
-                // If not flipped, hide the back side
-                cardBack.style.display = 'none';
-                cardFront.style.display = 'block';
-            }
-
-            klickClick.style.display = 'none';
+    <section class="shows-section" id="programmer">
+        <div class="container">
+            <div class="section-title">
+                <h2>VORES PROGRAMMER</h2>
+                <p>Udforsk vores alsidige udvalg af studieproducerede podcast-programmer, der dækker alt fra debat og kultur til videnskab og underholdning.</p>
+            </div>
+            <div class="shows-grid">
+                <div class="show-card">
+                    <div class="show-image">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/2EJrewktCX7msAhRAUyrzj?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                    <div class="show-content">
+                        <h3 class="show-title">UniLiv</h3>
+                        <p class="show-description">PLACEHOLDER</p>
+                        <div class="play-now" style="color: var(--uni-liv-color);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            Se Episoder
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="show-card">
+                    <div class="show-image">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/6fbzL4lN39CuZAvktQhaf4?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                    <div class="show-content">
+                        <h3 class="show-title">PJÆK</h3>
+                        <p class="show-description">PLACEHOLDER</p>
+                        <div class="play-now" style="color: var(--pjaek-color);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            Se Episoder
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="show-card">
+                    <div class="show-image">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/2caefOQ9XLNrvCNXGOmcxY?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                    <div class="show-content">
+                        <h3 class="show-title">DEN ÅBNE KANAL</h3>
+                        <p class="show-description">PLACEHOLDER</p>
+                        <div class="play-now" style="color: var(--den-abne-color);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            Se Episoder
+                        </div>
+                    </div>
+                </div>
+            </div>
             
+            <div style="text-align: center; margin-top: 4rem;">
+                <a href="#" class="cta-button" style="display: inline-flex; justify-content: center;">
+                    Se Alle Programmer
+                </a>
+            </div>
+        </div>
+    </section>
 
-            // Flip the card by rotating it
-        }
+    <section class="team-section" id="team">
+        <div class="container">
+            <div class="section-title">
+                <h2>MØD HOLDET</h2>
+                <p> PLACEHOLDER</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-photo">
+                        <div class="photo-inner">
+                            <img src="UlrikPic.jpg" alt="Ulrik Blach Petersen" style="width: 100%; height: 100%; object-fit: cover; background: var(--primary); color: white;"/>
+                        </div>
+                    </div>
+                    <h3 class="team-name">ULRK BLACH PETERSEN</h3>
+                    <p class="team-role">CHEFREDAKTØR</p>
+                    <p class="team-bio">PLACEHOLDER</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="team-photo">
+                        <div class="photo-inner">
+                            <img src="KelvinPic.jpg" alt="Kelvin Nedergaard" style="width: 100%; height: 100%; object-fit: cover; background: var(--primary); color: white;"/>
+                        </div>
+                    </div>
+                    <h3 class="team-name">KELVIN NEDERGAARD</h3>
+                    <p class="team-role">BESTYRELSESFORMAND</p>
+                    <p class="team-bio">PLACEHOLDER</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="kontakt">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Om AASP</h3>
+                    <p style="color: rgba(245, 245, 220, 0.7); margin-bottom: 1.5rem; font-weight: 300;">
+                        PLACEHOLDER
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#hjem">Hjem</a></li>
+                        <li><a href="#programmer">Programmer</a></li>
+                        <li><a href="#podcasts">Podcasts</a></li>
+                        <li><a href="#team">Holdet</a></li>
+                        <li><a href="#">Bliv Frivillig</a></li>
+                        <li><a href="#">Podcast-Arkiv</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Kontakt</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                        </div>
+                        <div>+45 xx xx xx xx</div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                        <div>formand@studenterradio.dk</div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div>Studenterhuset, Nordre Ringgade 3, 8000 Aarhus C</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Aarhus Studenterradio og Podcast. Alle rettigheder forbeholdes.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Add scrolled class to header on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile menu toggle
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileToggle.addEventListener('click', function() {
+            mobileToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Cursor follower effect removed
+        
+        // Parallax scroll effect
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.pageYOffset;
+            
+            document.querySelectorAll('.show-card, .podcast-card').forEach((element, index) => {
+                const speed = 0.03;
+                const offset = index * 10;
+                const yPos = -(scrollPosition * speed) + offset;
+                
+                element.style.transform = `translateY(${yPos}px)`;
+            });
+        });
     </script>
 </body>
 </html>
