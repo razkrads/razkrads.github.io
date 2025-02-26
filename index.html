@@ -1766,7 +1766,7 @@ footer::before {
                     <a href="#hjem">Hjem</a>
                     <a href="#programmer">Programmer</a>
                     <a href="#podcasts">Podcasts</a>
-                    <a href="#team">Holdet</a>
+                    <a href="#team">Frivillige</a>
                     <a href="#kontakt">Kontakt</a>
                 </div>
                 
@@ -1850,69 +1850,139 @@ footer::before {
         </div>
     </section>
 
-    <section class="team-section" id="team">
-        <div class="container">
-            <div class="section-title">
-                <h2>MØD HOLDET</h2>
-                <p> PLACEHOLDER</p>
+  <!-- TEAM SECTION -->
+  <section class="team-section" id="team">
+    <div class="container">
+      <div class="section-title">
+        <h2>MØD DE FRIVILLIGE</h2>
+        <p>PLACEHOLDER</p>
+      </div>
+      <div class="team-grid">
+        <!-- Existing team members -->
+        <div class="team-member">
+          <div class="team-photo">
+            <div class="photo-inner">
+              <img src="UlrikPic.jpg" alt="Ulrik Blach Petersen"/>
             </div>
-            <div class="team-grid">
-                <div class="team-member">
-                    <div class="team-photo">
-                        <div class="photo-inner">
-                            <img src="UlrikPic.jpg" alt="Ulrik Blach Petersen" style="width: 100%; height: 100%; object-fit: cover; background: var(--primary); color: white;"/>
-                        </div>
-                    </div>
-                    <h3 class="team-name">ULRK BLACH PETERSEN</h3>
-                    <p class="team-role">CHEFREDAKTØR</p>
-                    <p class="team-bio">PLACEHOLDER</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="team-member">
-                    <div class="team-photo">
-                        <div class="photo-inner">
-                            <img src="KelvinPic.jpg" alt="Kelvin Nedergaard" style="width: 100%; height: 100%; object-fit: cover; background: var(--primary); color: white;"/>
-                        </div>
-                    </div>
-                    <h3 class="team-name">KELVIN NEDERGAARD</h3>
-                    <p class="team-role">BESTYRELSESFORMAND</p>
-                    <p class="team-bio">PLACEHOLDER</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
+          </div>
+          <h3 class="team-name">ULRK BLACH PETERSEN</h3>
+          <p class="team-role">CHEFREDAKTØR</p>
+          <p class="team-bio">PLACEHOLDER</p>
         </div>
-    </section>
+        
+        <div class="team-member">
+          <div class="team-photo">
+            <div class="photo-inner">
+              <img src="KelvinPic.jpg" alt="Kelvin Nedergaard"/>
+            </div>
+          </div>
+          <h3 class="team-name">KELVIN NEDERGAARD</h3>
+          <p class="team-role">BESTYRELSESFORMAND</p>
+          <p class="team-bio">PLACEHOLDER</p>
+        </div>
+        
+        <!-- BESTYRELSE card becomes clickable -->
+        <div class="team-member" id="bestyrelse-trigger" style="cursor: pointer;">
+          <div class="team-photo">
+            <div class="photo-inner">
+              <img src="bestyrelse.jpg" alt="BESTYRELSE"/>
+            </div>
+          </div>
+          <h3 class="team-name">BESTYRELSE</h3>
+          <p class="team-role">KLIK OG LÆS MERE OM BESTYRELSEN</p>
+          <p class="team-bio">PLACEHOLDER</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal for Board (Bestyrelse) -->
+<div id="bestyrelse-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2 style="color: var(--secondary); text-transform: uppercase; text-align: center; margin-bottom: 2rem;">Bestyrelse</h2>
+      <div class="board-grid">
+        <!-- Board Member 1: Kelvin Nedergaard (Formand) -->
+        <div class="team-member">
+          <div class="team-photo">
+            <div class="photo-inner">
+              <img src="KelvinPic.jpg" alt="Kelvin Nedergaard" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+          </div>
+          <h3 class="team-name">Kelvin Nedergaard</h3>
+          <p class="team-role">Formand</p>
+          <p class="team-bio">formand@studenterradio.dk</p>
+        </div>
+        <!-- Board Member 2: Magnus Eskerod (Viceformand) -->
+        <div class="team-member">
+          <div class="team-photo">
+            <div class="photo-inner">
+              <img src="PlaceholderPerson.jpg" alt="Magnus Eskerod" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+          </div>
+          <h3 class="team-name">Magnus Eskerod</h3>
+          <p class="team-role">Viceformand</p>
+          <p class="team-bio">PLACEHOLDER</p>
+        </div>
+        <!-- Board Member 3: Rasmus Vestergaard Knudsen (Kasserer) -->
+        <div class="team-member">
+          <div class="team-photo">
+            <div class="photo-inner">
+              <img src="RasmusPic.jpg" alt="Rasmus Vestergaard Knudsen" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+          </div>
+          <h3 class="team-name">Rasmus Vestergaard Knudsen</h3>
+          <p class="team-role">Kasserer</p>
+          <p class="team-bio">kasserer@studenterradio.dk</p>
+        </div>
+        <!-- Board Member 4: Rasmus Ravn (Almen medlem) -->
+        <div class="team-member">
+          <div class="team-photo">
+            <div class="photo-inner">
+              <img src="PlaceholderPerson.jpg" alt="Rasmus Ravn" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+          </div>
+          <h3 class="team-name">Rasmus Ravn</h3>
+          <p class="team-role">Almen medlem</p>
+          <p class="team-bio">PLACEHOLDER</p>
+        </div>
+        <!-- Board Member 5: Nana-Margrete Christensen (Almen medlem) -->
+        <div class="team-member">
+          <div class="team-photo">
+            <div class="photo-inner">
+              <img src="PlaceholderPerson.jpg" alt="Nana-Margrete Christensen" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+          </div>
+          <h3 class="team-name">Nana-Margrete Christensen</h3>
+          <p class="team-role">Almen medlem</p>
+          <p class="team-bio">PLACEHOLDER</p>
+        </div>
+        <!-- Board Member 6: Sofie Nybye Sørensen (Almen medlem) -->
+        <div class="team-member">
+          <div class="team-photo">
+            <div class="photo-inner">
+              <img src="PlaceholderPerson.jpg" alt="Sofie Nybye Sørensen" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+          </div>
+          <h3 class="team-name">Sofie Nybye Sørensen</h3>
+          <p class="team-role">Almen medlem</p>
+          <p class="team-bio">PLACEHOLDER</p>
+        </div>
+        <!-- Board Member 7: David Amro (Almen medlem) -->
+        <div class="team-member">
+          <div class="team-photo">
+            <div class="photo-inner">
+              <img src="PlaceholderPerson.jpg" alt="David Amro" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+          </div>
+          <h3 class="team-name">David Amro</h3>
+          <p class="team-role">Almen medlem</p>
+          <p class="team-bio">PLACEHOLDER</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 
     <footer id="kontakt">
         <div class="container">
@@ -1929,10 +1999,8 @@ footer::before {
                     <ul class="footer-links">
                         <li><a href="#hjem">Hjem</a></li>
                         <li><a href="#programmer">Programmer</a></li>
-                        <li><a href="#podcasts">Podcasts</a></li>
-                        <li><a href="#team">Holdet</a></li>
+                        <li><a href="#team">Frivillige</a></li>
                         <li><a href="#">Bliv Frivillig</a></li>
-                        <li><a href="#">Podcast-Arkiv</a></li>
                     </ul>
                 </div>
                 
@@ -1974,6 +2042,188 @@ footer::before {
             </div>
         </div>
     </footer>
+    <style>
+        /* Desktop: Grid Layout */
+        @media (min-width: 769px) {
+          .team-section {
+            background-color: var(--dark);
+            padding: 5rem 1rem;
+          }
+          .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+          }
+          .team-member {
+            text-align: center;
+            padding: 1rem;
+          }
+          .team-photo {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1rem;
+            overflow: hidden;
+            border-radius: 50%;
+          }
+          .photo-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: var(--primary);
+            color: white;
+          }
+        }
+        
+        /* Mobile: Slideable Carousel */
+        @media (max-width: 768px) {
+          .team-section {
+            background-color: var(--dark);
+            padding: 3rem 0.5rem;
+          }
+          .team-grid {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            gap: 1rem;
+            padding-bottom: 1rem;
+          }
+          .team-member {
+            flex: 0 0 80%;
+            scroll-snap-align: center;
+            text-align: center;
+            padding: 1rem;
+          }
+          .team-photo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 1rem;
+            overflow: hidden;
+            border-radius: 50%;
+          }
+          .photo-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: var(--primary);
+            color: white;
+          }
+          .team-member h3.team-name {
+            font-size: 1.5rem;
+          }
+          .team-member p.team-role,
+          .team-member p.team-bio {
+            font-size: 0.9rem;
+          }
+        }
+      </style>
+    <style>
+        /* Modal overlay */
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 3000;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          overflow-y: auto;
+          background: rgba(0, 0, 0, 0.85);
+        }
+        
+        /* Modal content styled to match your dark theme */
+        .modal-content {
+          background-color: var(--dark);
+          margin: 5% auto;
+          padding: 2rem;
+          max-width: 1000px;
+          border-radius: 8px;
+          position: relative;
+        }
+        
+        /* Close button */
+        .close-modal {
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          font-size: 2rem;
+          color: var(--secondary);
+          cursor: pointer;
+        }
+        
+        /* Board grid layout within the modal */
+        .board-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+          gap: 2rem;
+          margin-top: 2rem;
+        }
+        
+        /* Optional: Adjust team-member cards inside the modal to use the same styles */
+        .modal .team-member {
+          text-align: center;
+        }
+      
+        /* Mobile compatibility tweaks */
+        @media (max-width: 768px) {
+          .modal-content {
+            margin: 8% auto;
+            padding: 1.5rem;
+            max-width: 95%;
+          }
+          .close-modal {
+            top: 5px;
+            right: 10px;
+            font-size: 1.5rem;
+          }
+          .board-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+          }
+        }
+      
+        @media (max-width: 480px) {
+          .modal-content {
+            margin: 10% auto;
+            padding: 1rem;
+            max-width: 95%;
+          }
+          .close-modal {
+            top: 5px;
+            right: 10px;
+            font-size: 1.3rem;
+          }
+          .board-grid {
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+          }
+        }
+      </style>
+      
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              const bestyrelseTrigger = document.getElementById('bestyrelse-trigger');
+              const bestyrelseModal = document.getElementById('bestyrelse-modal');
+              const closeBtn = bestyrelseModal.querySelector('.close-modal');
+            
+              bestyrelseTrigger.addEventListener('click', function() {
+                bestyrelseModal.style.display = 'block';
+              });
+            
+              closeBtn.addEventListener('click', function() {
+                bestyrelseModal.style.display = 'none';
+              });
+            
+              window.addEventListener('click', function(event) {
+                if (event.target === bestyrelseModal) {
+                  bestyrelseModal.style.display = 'none';
+                }
+              });
+            });
+            </script>
+            
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Program data with correct color schemes and data attributes
