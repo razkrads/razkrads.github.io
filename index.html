@@ -1964,15 +1964,23 @@ footer::before {
     </footer>
     
     <script>
-        // Add scrolled class to header on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
+        // Parallax scroll effect with limits
+window.addEventListener('scroll', function() {
+    const scrollPosition = window.pageYOffset;
+    
+    document.querySelectorAll('.show-card, .podcast-card').forEach((element, index) => {
+        const speed = 0.003;
+        const offset = index * 5;
+        const maxShift = 30; // Maximum pixels of movement
+        
+        // Calculate position but limit it
+        let yPos = -(scrollPosition * speed) + offset;
+        yPos = Math.max(Math.min(yPos, maxShift), -maxShift);
+        
+        // Apply the transformation
+        element.style.transform = `translateY(${yPos}px)`;
+    });
+});
         
         // Mobile menu toggle
         const mobileToggle = document.querySelector('.mobile-toggle');
