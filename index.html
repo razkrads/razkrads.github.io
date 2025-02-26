@@ -1962,462 +1962,253 @@ footer::before {
             </div>
         </div>
     </footer>
-    
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add scrolled class to header on scroll
-            window.addEventListener('scroll', function() {
-                const header = document.querySelector('header');
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
+    document.addEventListener('DOMContentLoaded', function() {
+        // Program data with correct color schemes and data attributes
+        const programData = [
+            {
+                title: "PJÆK",
+                description: "PLACEHOLDER",
+                embedUrl: "https://open.spotify.com/embed/show/6fbzL4lN39CuZAvktQhaf4?utm_source=generator",
+                color: "var(--pjaek-color)",
+                dataAttr: "pjaek"
+            },
+            {
+                title: "DEN ÅBNE KANAL",
+                description: "PLACEHOLDER",
+                embedUrl: "https://open.spotify.com/embed/show/2caefOQ9XLNrvCNXGOmcxY?utm_source=generator",
+                color: "var(--den-abne-color)",
+                dataAttr: "den-abne"
+            },
+            {
+                title: "UNI LIV",
+                description: "PLACEHOLDER",
+                embedUrl: "https://open.spotify.com/embed/show/2EJrewktCX7msAhRAUyrzj?utm_source=generator",
+                color: "var(--uni-liv-color)",
+                dataAttr: "uni-liv"
+            },
+            {
+                title: "UDEN FOR PENSUM",
+                description: "PLACEHOLDER",
+                embedUrl: "https://open.spotify.com/embed/show/2nTK4FF2Mp3JBZQXxBsFkZ?utm_source=generator",
+                color: "var(--ufp-color)",
+                dataAttr: "ufp"
+            }
+        ];
+        
+        initCoverflowCarousel(programData);
+        
+        function initCoverflowCarousel(programData) {
+            const coverflowTrack = document.querySelector('.coverflow-track');
+            const dotsContainer = document.querySelector('.carousel-dots');
+            const nextBtn = document.querySelector('.coverflow-carousel-container .next-btn');
+            const prevBtn = document.querySelector('.coverflow-carousel-container .prev-btn');
             
-            // Mobile menu toggle
-            const mobileToggle = document.querySelector('.mobile-toggle');
-            const navLinks = document.querySelector('.nav-links');
+            if (!coverflowTrack) return;
             
-            if (mobileToggle && navLinks) {
-                mobileToggle.addEventListener('click', function() {
-                    mobileToggle.classList.toggle('active');
-                    navLinks.classList.toggle('active');
-                });
+            let currentIndex = 2; // Start with UNI LIV as the active card (index 2)
+            const totalSlides = programData.length;
+            let isAnimating = false;
+            
+            // Generate slides with modern styling
+            function generateSlides() {
+                coverflowTrack.innerHTML = '';
+                dotsContainer.innerHTML = '';
                 
-                // Close mobile menu when clicking a link
-                document.querySelectorAll('.nav-links a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        mobileToggle.classList.remove('active');
-                        navLinks.classList.remove('active');
+                programData.forEach((program, index) => {
+                    const slide = document.createElement('div');
+                    slide.className = 'coverflow-slide';
+                    slide.dataset.index = index;
+                    slide.dataset.program = program.dataAttr;
+                    
+                    slide.innerHTML = `
+                        <div class="show-card">
+                            <div class="show-image">
+                                <iframe style="border-radius:12px" 
+                                        src="${program.embedUrl}" 
+                                        frameBorder="0" 
+                                        allowfullscreen="" 
+                                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                        loading="lazy"></iframe>
+                            </div>
+                            <div class="show-content">
+                                <h3 class="show-title">${program.title}</h3>
+                                <p class="show-description">${program.description}</p>
+                                <div class="play-now">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                    </svg>
+                                    SE EPISODER
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    coverflowTrack.appendChild(slide);
+                    
+                    // Create modern indicator dots
+                    const dot = document.createElement('span');
+                    dot.className = 'dot';
+                    dot.dataset.index = index;
+                    dotsContainer.appendChild(dot);
+                    
+                    // Add click event to dots with transition lock
+                    dot.addEventListener('click', () => {
+                        if (!isAnimating && index !== currentIndex) {
+                            goToSlide(index);
+                        }
+                    });
+                    
+                    // Add click event to slide with transition lock
+                    slide.addEventListener('click', () => {
+                        if (!isAnimating && index !== currentIndex) {
+                            goToSlide(index);
+                        }
                     });
                 });
             }
-        });
-    </script>
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Program data with correct color schemes and data attributes
-    const programData = [
-        {
-            title: "PJÆK",
-            description: "PLACEHOLDER",
-            embedUrl: "https://open.spotify.com/embed/show/6fbzL4lN39CuZAvktQhaf4?utm_source=generator",
-            color: "var(--pjaek-color)",
-            dataAttr: "pjaek"
-        },
-        {
-            title: "DEN ÅBNE KANAL",
-            description: "PLACEHOLDER",
-            embedUrl: "https://open.spotify.com/embed/show/2caefOQ9XLNrvCNXGOmcxY?utm_source=generator",
-            color: "var(--den-abne-color)",
-            dataAttr: "den-abne"
-        },
-        {
-            title: "UNI LIV",
-            description: "PLACEHOLDER",
-            embedUrl: "https://open.spotify.com/embed/show/2EJrewktCX7msAhRAUyrzj?utm_source=generator",
-            color: "var(--uni-liv-color)",
-            dataAttr: "uni-liv"
-        },
-        {
-            title: "UDEN FOR PENSUM",
-            description: "PLACEHOLDER",
-            embedUrl: "https://open.spotify.com/embed/show/2nTK4FF2Mp3JBZQXxBsFkZ?utm_source=generator",
-            color: "var(--ufp-color)",
-            dataAttr: "ufp"
-
             
-        }
-    ];
-    
-    initCoverflowCarousel(programData);
-    
-    function initCoverflowCarousel(programData) {
-        const coverflowTrack = document.querySelector('.coverflow-track');
-        const dotsContainer = document.querySelector('.carousel-dots');
-        const nextBtn = document.querySelector('.coverflow-carousel-container .next-btn');
-        const prevBtn = document.querySelector('.coverflow-carousel-container .prev-btn');
-        
-        if (!coverflowTrack) return;
-        
-        let currentIndex = 2; // Start with UNI LIV as the active card (index 2)
-        const totalSlides = programData.length;
-        let isAnimating = false;
-        
-        // Generate slides with modern styling
-        function generateSlides() {
-            coverflowTrack.innerHTML = '';
-            dotsContainer.innerHTML = '';
-            
-            programData.forEach((program, index) => {
-                const slide = document.createElement('div');
-                slide.className = 'coverflow-slide';
-                slide.dataset.index = index;
-                slide.dataset.program = program.dataAttr;
+            // Update slide positions with smooth transitions
+            function updateSlidePositions() {
+                const slides = document.querySelectorAll('.coverflow-slide');
                 
-                slide.innerHTML = `
-                    <div class="show-card">
-                        <div class="show-image">
-                            <iframe style="border-radius:12px" 
-                                    src="${program.embedUrl}" 
-                                    frameBorder="0" 
-                                    allowfullscreen="" 
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                                    loading="lazy"></iframe>
-                        </div>
-                        <div class="show-content">
-                            <h3 class="show-title">${program.title}</h3>
-                            <p class="show-description">${program.description}</p>
-                            <div class="play-now">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                </svg>
-                                SE EPISODER
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                coverflowTrack.appendChild(slide);
-                
-                // Create modern indicator dots
-                const dot = document.createElement('span');
-                dot.className = 'dot';
-                dot.dataset.index = index;
-                dotsContainer.appendChild(dot);
-                
-                // Add click event to dots with transition lock
-                dot.addEventListener('click', () => {
-                    if (!isAnimating && index !== currentIndex) {
-                        goToSlide(index);
+                slides.forEach(slide => {
+                    // Clear all position classes
+                    slide.classList.remove('active', 'prev', 'next', 'prev-2', 'next-2', 'far-left', 'far-right');
+                    
+                    const slideIndex = parseInt(slide.dataset.index);
+                    const relativeDiff = getRelativePosition(slideIndex, currentIndex);
+                    
+                    // Add appropriate class based on relative position
+                    if (relativeDiff === 0) {
+                        slide.classList.add('active');
+                    } else if (relativeDiff === -1 || relativeDiff === totalSlides - 1) {
+                        slide.classList.add('prev');
+                    } else if (relativeDiff === 1 || relativeDiff === -(totalSlides - 1)) {
+                        slide.classList.add('next');
+                    } else if (relativeDiff === -2 || relativeDiff === totalSlides - 2) {
+                        slide.classList.add('prev-2');
+                    } else if (relativeDiff === 2 || relativeDiff === -(totalSlides - 2)) {
+                        slide.classList.add('next-2');
+                    } else if (relativeDiff < -2) {
+                        slide.classList.add('far-left');
+                    } else if (relativeDiff > 2) {
+                        slide.classList.add('far-right');
                     }
                 });
                 
-                // Add click event to slide with transition lock
-                slide.addEventListener('click', () => {
-                    if (!isAnimating && index !== currentIndex) {
-                        goToSlide(index);
-                    }
+                // Update dots with active state
+                const dots = document.querySelectorAll('.dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
                 });
-            });
-        }
-        
-        // Update slide positions with smooth transitions
-        function updateSlidePositions() {
-            const slides = document.querySelectorAll('.coverflow-slide');
-            
-            slides.forEach(slide => {
-                // Clear all position classes
-                slide.classList.remove('active', 'prev', 'next', 'prev-2', 'next-2', 'far-left', 'far-right');
-                
-                const slideIndex = parseInt(slide.dataset.index);
-                const relativeDiff = getRelativePosition(slideIndex, currentIndex);
-                
-                // Add appropriate class based on relative position
-                if (relativeDiff === 0) {
-                    slide.classList.add('active');
-                } else if (relativeDiff === -1 || relativeDiff === totalSlides - 1) {
-                    slide.classList.add('prev');
-                } else if (relativeDiff === 1 || relativeDiff === -(totalSlides - 1)) {
-                    slide.classList.add('next');
-                } else if (relativeDiff === -2 || relativeDiff === totalSlides - 2) {
-                    slide.classList.add('prev-2');
-                } else if (relativeDiff === 2 || relativeDiff === -(totalSlides - 2)) {
-                    slide.classList.add('next-2');
-                } else if (relativeDiff < -2) {
-                    slide.classList.add('far-left');
-                } else if (relativeDiff > 2) {
-                    slide.classList.add('far-right');
-                }
-            });
-            
-            // Update dots with active state
-            const dots = document.querySelectorAll('.dot');
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
-            });
-        }
-        
-        function getRelativePosition(index, currentIndex) {
-            let diff = index - currentIndex;
-            
-            // Ensure we get the shortest path in the circular carousel
-            if (diff > totalSlides / 2) {
-                diff -= totalSlides;
-            } else if (diff < -totalSlides / 2) {
-                diff += totalSlides;
             }
             
-            return diff;
-        }
-        
-        // Enhanced slide transition with animation lock
-        function goToSlide(index) {
-            if (isAnimating) return;
-            isAnimating = true;
+            function getRelativePosition(index, currentIndex) {
+                let diff = index - currentIndex;
+                
+                // Ensure we get the shortest path in the circular carousel
+                if (diff > totalSlides / 2) {
+                    diff -= totalSlides;
+                } else if (diff < -totalSlides / 2) {
+                    diff += totalSlides;
+                }
+                
+                return diff;
+            }
             
-            currentIndex = index;
-            if (currentIndex < 0) currentIndex = totalSlides - 1;
-            if (currentIndex >= totalSlides) currentIndex = 0;
+            // Enhanced slide transition with animation lock
+            function goToSlide(index) {
+                if (isAnimating) return;
+                isAnimating = true;
+                
+                currentIndex = index;
+                if (currentIndex < 0) currentIndex = totalSlides - 1;
+                if (currentIndex >= totalSlides) currentIndex = 0;
+                
+                updateSlidePositions();
+                
+                // Release animation lock after transition completes
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 500); // Match this to your CSS transition duration
+            }
             
+            // Initialize carousel
+            generateSlides();
             updateSlidePositions();
             
-            // Release animation lock after transition completes
-            setTimeout(() => {
-                isAnimating = false;
-            }, 500); // Match this to your CSS transition duration
-        }
-        
-        // Initialize carousel
-        generateSlides();
-        updateSlidePositions();
-        
-        // Add enhanced event listeners for buttons
-        nextBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!isAnimating) {
-                goToSlide(currentIndex + 1);
-                resetAutoAdvance();
-            }
-        });
-        
-        prevBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!isAnimating) {
-                goToSlide(currentIndex - 1);
-                resetAutoAdvance();
-            }
-        });
-        
-        // Enhanced keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') {
-                if (!isAnimating) {
-                    goToSlide(currentIndex - 1);
-                    resetAutoAdvance();
-                }
-            } else if (e.key === 'ArrowRight') {
-                if (!isAnimating) {
-                    goToSlide(currentIndex + 1);
-                    resetAutoAdvance();
-                }
-            }
-        });
-        
-        // Improved touch handling
-        let touchStartX = 0;
-        let touchEndX = 0;
-        let touchStartTime = 0;
-        
-        coverflowTrack.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartTime = new Date().getTime();
-            clearInterval(carouselInterval);
-        });
-        
-        coverflowTrack.addEventListener('touchend', (e) => {
-            if (isAnimating) return;
-            
-            touchEndX = e.changedTouches[0].screenX;
-            const touchEndTime = new Date().getTime();
-            
-            // Calculate swipe velocity for better user experience
-            const touchDuration = touchEndTime - touchStartTime;
-            const touchDistance = Math.abs(touchEndX - touchStartX);
-            const velocity = touchDistance / touchDuration;
-            
-            // Adjust threshold based on swipe velocity
-            const swipeThreshold = velocity > 0.5 ? 30 : 50;
-            
-            if (touchEndX < touchStartX - swipeThreshold) {
-                // Swipe left (next)
-                goToSlide(currentIndex + 1);
-            } else if (touchEndX > touchStartX + swipeThreshold) {
-                // Swipe right (prev)
-                goToSlide(currentIndex - 1);
-            }
-            
-            resetAutoAdvance();
-        });
-        
-        // Auto-advance with reset functionality
-        let carouselInterval;
-        
-        function startAutoAdvance() {
-            carouselInterval = setInterval(() => {
+            // Add enhanced event listeners for buttons
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 if (!isAnimating) {
                     goToSlide(currentIndex + 1);
                 }
-            }, 5000);
-        }
-        
-        function resetAutoAdvance() {
-            clearInterval(carouselInterval);
-            startAutoAdvance();
-        }
-        
-        // Start auto-advance
-        startAutoAdvance();
-        
-        // Pause auto-advance on hover for better UX
-        const carouselContainer = document.querySelector('.coverflow-carousel-container');
-        
-        carouselContainer.addEventListener('mouseenter', () => {
-            clearInterval(carouselInterval);
-        });
-        
-        carouselContainer.addEventListener('mouseleave', () => {
-            startAutoAdvance();
-        });
-        
-        // Optimize page visibility handling
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                clearInterval(carouselInterval);
-            } else {
-                startAutoAdvance();
-            }
-        });
-        
-        // Debounced resize handler for performance
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                updateSlidePositions();
-            }, 250);
-        });
-    }
-});
-        </script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    // Only initialize carousel on mobile devices
-    if (window.innerWidth <= 768) {
-        initTeamCarousel();
-    }
-    
-    // Check on resize if we need to initialize or destroy carousel
-    window.addEventListener('resize', function() {
-        if (window.innerWidth <= 768) {
-            if (!document.querySelector('.team-carousel')) {
-                initTeamCarousel();
-            }
-        } else {
-            const carousel = document.querySelector('.team-carousel');
-            if (carousel) {
-                // Revert back to grid layout
-                const teamGrid = document.querySelector('.team-grid');
-                const carouselDots = document.querySelector('.carousel-dots');
-                
-                // Move team members back to grid
-                while (carousel.firstChild) {
-                    teamGrid.appendChild(carousel.firstChild);
-                }
-                
-                // Remove carousel wrapper and dots
-                carousel.remove();
-                if (carouselDots) carouselDots.remove();
-            }
-        }
-    });
-    
-    function initTeamCarousel() {
-        const teamGrid = document.querySelector('.team-grid');
-        if (!teamGrid) return;
-        
-        // Check if carousel is already initialized
-        if (document.querySelector('.team-carousel')) return;
-        
-        // Create carousel container
-        const carousel = document.createElement('div');
-        carousel.className = 'team-carousel';
-        
-        // Move team members into carousel
-        const teamMembers = Array.from(teamGrid.querySelectorAll('.team-member'));
-        
-        teamMembers.forEach(member => {
-            carousel.appendChild(member);
-        });
-        
-        // Add carousel to team grid
-        teamGrid.appendChild(carousel);
-        
-        // Create dots container
-        const dotsContainer = document.createElement('div');
-        dotsContainer.className = 'carousel-dots';
-        
-        // Add dots for each team member
-        teamMembers.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
-            dot.dataset.index = index;
-            
-            dot.addEventListener('click', function() {
-                const memberIndex = this.dataset.index;
-                const memberElement = carousel.children[memberIndex];
-                
-                // Scroll to the team member
-                memberElement.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'nearest',
-                    inline: 'center'
-                });
-                
-                // Update active dot
-                document.querySelectorAll('.carousel-dot').forEach(d => {
-                    d.classList.remove('active');
-                });
-                this.classList.add('active');
             });
             
-            dotsContainer.appendChild(dot);
-        });
-        
-        // Add dots container after team grid
-        teamGrid.after(dotsContainer);
-        
-        // Add scroll event listener to update active dot
-        carousel.addEventListener('scroll', function() {
-            // Use debounced function to avoid performance issues
-            clearTimeout(carousel.scrollTimer);
-            carousel.scrollTimer = setTimeout(function() {
-                updateActiveDot(carousel, dotsContainer);
-            }, 100);
-        });
-        
-        // Initial scroll to first item (fixes some mobile browser display issues)
-        if (teamMembers.length > 0) {
-            setTimeout(() => {
-                teamMembers[0].scrollIntoView({ 
-                    behavior: 'auto', 
-                    block: 'nearest',
-                    inline: 'center'
-                });
-            }, 100);
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (!isAnimating) {
+                    goToSlide(currentIndex - 1);
+                }
+            });
+            
+            // Enhanced keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    if (!isAnimating) {
+                        goToSlide(currentIndex - 1);
+                    }
+                } else if (e.key === 'ArrowRight') {
+                    if (!isAnimating) {
+                        goToSlide(currentIndex + 1);
+                    }
+                }
+            });
+            
+            // Improved touch handling
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let touchStartTime = 0;
+            
+            coverflowTrack.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartTime = new Date().getTime();
+            });
+            
+            coverflowTrack.addEventListener('touchend', (e) => {
+                if (isAnimating) return;
+                
+                touchEndX = e.changedTouches[0].screenX;
+                const touchEndTime = new Date().getTime();
+                
+                // Calculate swipe velocity for better user experience
+                const touchDuration = touchEndTime - touchStartTime;
+                const touchDistance = Math.abs(touchEndX - touchStartX);
+                const velocity = touchDistance / touchDuration;
+                
+                // Adjust threshold based on swipe velocity
+                const swipeThreshold = velocity > 0.5 ? 30 : 50;
+                
+                if (touchEndX < touchStartX - swipeThreshold) {
+                    // Swipe left (next)
+                    goToSlide(currentIndex + 1);
+                } else if (touchEndX > touchStartX + swipeThreshold) {
+                    // Swipe right (prev)
+                    goToSlide(currentIndex - 1);
+                }
+            });
+            
+            // Debounced resize handler for performance
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    updateSlidePositions();
+                }, 250);
+            });
         }
-    }
-    
-    function updateActiveDot(carousel, dotsContainer) {
-        const scrollPosition = carousel.scrollLeft;
-        const carouselWidth = carousel.offsetWidth;
-        const itemWidth = carousel.querySelector('.team-member').offsetWidth;
-        const centerPosition = scrollPosition + (carouselWidth / 2);
-        const activeIndex = Math.round(centerPosition / itemWidth - 0.5);
-        
-        // Update active dot
-        const dots = dotsContainer.querySelectorAll('.carousel-dot');
-        dots.forEach((dot, index) => {
-            if (index === activeIndex) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-    }
-});
+    });
 </script>
 </body>
 </html>
