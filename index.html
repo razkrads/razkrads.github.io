@@ -1993,24 +1993,6 @@ footer::before {
                     });
                 });
             }
-            
-            // Improved parallax scroll effect with limits
-            window.addEventListener('scroll', function() {
-                const scrollPosition = window.pageYOffset;
-                
-                document.querySelectorAll('.show-card, .podcast-card').forEach((element, index) => {
-                    const speed = 0.003; // Reduced speed for smoother effect
-                    const offset = index * 5; // Smaller offset between elements
-                    const maxShift = 30; // Maximum pixels of movement
-                    
-                    // Calculate position with limits
-                    let yPos = -(scrollPosition * speed) + offset;
-                    yPos = Math.max(Math.min(yPos, maxShift), -maxShift);
-                    
-                    // Apply the transformation
-                    element.style.transform = `translateY(${yPos}px)`;
-                });
-            });
         });
     </script>
     <script>
