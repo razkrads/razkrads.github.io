@@ -18,9 +18,11 @@
             --glass-bg: rgba(245, 245, 220, 0.09);
             --glass-border: rgba(245, 245, 220, 0.13);
             --uni-liv-color: #AF0000;
-            --profundis-color: #D88C39;
             --pjaek-color: #E4017E;
             --den-abne-color: #F7BF00;
+            --middelalderlig-color: #3B651C;
+            --studieguiden-color: #813AA8;
+            --profundis-color: #A03A11;
             --glitch-intensity: 15px;
         }
         
@@ -1295,6 +1297,9 @@ footer::before {
   --pjaek-color: #CC348B;
   --den-abne-color: #C8922C;
   --ufp-color: #002D5B;
+  --middelalderlig-color: #3B651C;
+  --studieguiden-color: #813AA8;
+  --profundis-color: #A03A11;
   --text-light: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.7);
   --card-radius: 16px;
@@ -1613,22 +1618,18 @@ footer::before {
   color: var(--ufp-color) !important;
 }
 
-/* Program-Specific Card Glows */
-.coverflow-slide[data-program="uni-liv"].active .show-card {
-  box-shadow: 0 0 30px rgba(201, 21, 30, 0.35), 0 15px 35px rgba(0, 0, 0, 0.3);
+.coverflow-slide[data-program="middelalderlig"] .play-now {
+  color: var(--middelalderlig-color) !important;
 }
 
-.coverflow-slide[data-program="pjaek"].active .show-card {
-  box-shadow: 0 0 30px rgba(204, 52, 139, 0.35), 0 15px 35px rgba(0, 0, 0, 0.3);
+.coverflow-slide[data-program="profundis"] .play-now {
+  color: var(--profundis-color) !important;
 }
 
-.coverflow-slide[data-program="den-abne"].active .show-card {
-  box-shadow: 0 0 30px rgba(200, 146, 44, 0.35), 0 15px 35px rgba(0, 0, 0, 0.3);
+.coverflow-slide[data-program="studieguiden"] .play-now {
+  color: var(--studieguiden-color) !important;
 }
 
-.coverflow-slide[data-program="ufp"].active .show-card {
-  box-shadow: 0 0 30px rgba(0, 45, 91, 0.35), 0 15px 35px rgba(0, 0, 0, 0.3);
-}
 
 /* Enhanced hover effects with program-specific colors */
 .coverflow-slide[data-program="uni-liv"].active .show-card:hover {
@@ -1650,7 +1651,18 @@ footer::before {
   transform: translateY(-8px);
   box-shadow: 0 0 40px rgba(0, 45, 91, 0.5), 0 20px 40px rgba(0, 0, 0, 0.4);
 }
-
+.coverflow-slide[data-program="middelalderlig"].active .show-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 40px rgba(65,101,5, 0.5), 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+.coverflow-slide[data-program="profundis"].active .show-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 40px rgba(124, 59, 175, 0.5), 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+.coverflow-slide[data-program="studieguiden"].active .show-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 40px rgba(122, 58, 174, 0.5), 0 20px 40px rgba(0, 0, 0, 0.4);
+}
 /* Responsive Adjustments */
 @media (max-width: 992px) {
   .coverflow-carousel-container {
@@ -1958,7 +1970,7 @@ footer::before {
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Aarhus Studenterradio og Podcast. Alle rettigheder forbeholdes.</p>
+                <p>&copy; 2025 Aarhus Studenterradio og Podcast. Alle rettigheder forbeholdes. Developed by RazApps</p>
             </div>
         </div>
     </footer>
@@ -1993,7 +2005,29 @@ footer::before {
                 embedUrl: "https://open.spotify.com/embed/show/2nTK4FF2Mp3JBZQXxBsFkZ?utm_source=generator",
                 color: "var(--ufp-color)",
                 dataAttr: "ufp"
+            },
+            {
+                title: "MIDDELALDERLIG",
+                description: "PLACEHOLDER",
+                embedUrl: "https://open.spotify.com/embed/show/6RH2WKn38xV704FNx84NTq?utm_source=generator",
+                color: "var(--middelalderlig-color)",
+                dataAttr: "middelalderlig"
+            },
+            {
+                title: "STUDIEGUIDEN",
+                description: "PLACEHOLDER",
+                embedUrl: "https://open.spotify.com/embed/show/2Az7AHa4U6cGXrDWBFk7GG?utm_source=generator",
+                color: "var(--studieguiden-color)",
+                dataAttr: "studieguiden"
+            },
+            {
+                title: "PROFUNDIS",
+                description: "PLACEHOLDER",
+                embedUrl: "https://open.spotify.com/embed/show/0Ft4JVXlFzTWyRaWjazhbh?utm_source=generator",
+                color: "var(--profundis-color)",
+                dataAttr: "profundis"
             }
+
         ];
         
         initCoverflowCarousel(programData);
