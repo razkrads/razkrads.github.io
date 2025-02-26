@@ -756,35 +756,33 @@
         }
         
         .show-card {
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            border-radius: 12px;
-            height: 100%;
-        }
-        
-        .show-card:hover {
-            transform: translateY(-15px);
-            background: var(--glass-bg);
-            border-color: rgba(245, 245, 220, 0.3);
-        }
-        
-        .show-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(10, 86, 0, 0.05) 0%, transparent 100%);
-            z-index: -1;
-        }
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--card-radius);
+  background-color: #191414; /* Match Spotify's black */
+  overflow: hidden;
+  height: auto; /* Let content determine height */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+  line-height: 1; /* Control overall line height */
+}
+
+/* Base effect for active cards without program-specific color */
+.active .show-card {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+}
+
+/* Base hover effect that will be overridden by program-specific ones */
+.active .show-card:hover {
+  transform: translateY(-8px);
+}
+
+/* Remove the general hover color reference that was causing issues */
+.active .show-card:hover {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
         
         .show-image {
             position: relative;
@@ -1186,6 +1184,458 @@
             }
         }
     </style>
+    <style>
+/* Modern Carousel Variables */
+:root {
+  --uni-liv-color: #C9151E;
+  --pjaek-color: #CC348B;
+  --den-abne-color: #C8922C;
+  --ufp-color: #002D5B;
+  --text-light: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --card-radius: 16px;
+  --card-glow: 0 0 25px rgba(255, 255, 255, 0.05);
+  --carousel-transition: 500ms cubic-bezier(0.33, 1, 0.68, 1);
+  --gradient-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+}
+
+/* Modern Carousel Container */
+.coverflow-carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 80px 0;
+  overflow: visible;
+  height: 620px;
+}
+
+/* Track Styles */
+.coverflow-track {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+}
+
+/* Slide Styles - Modern 3D effect */
+.coverflow-slide {
+  position: absolute;
+  width: 320px;
+  transition: all var(--carousel-transition);
+  cursor: pointer;
+  will-change: transform, opacity;
+}
+
+/* Card positioning classes with enhanced 3D effect */
+.coverflow-slide.active {
+  z-index: 10;
+  transform: translateX(0) rotateY(0deg) scale(1);
+  opacity: 1;
+  filter: brightness(1.1) contrast(1.05);
+}
+
+.coverflow-slide.prev {
+  z-index: 5;
+  transform: translateX(-85%) rotateY(25deg) translateZ(-100px) scale(0.85);
+  opacity: 0.8;
+  filter: brightness(0.8) contrast(0.95);
+}
+
+.coverflow-slide.next {
+  z-index: 5;
+  transform: translateX(85%) rotateY(-25deg) translateZ(-100px) scale(0.85);
+  opacity: 0.8;
+  filter: brightness(0.8) contrast(0.95);
+}
+
+.coverflow-slide.prev-2 {
+  z-index: 4;
+  transform: translateX(-160%) rotateY(35deg) translateZ(-200px) scale(0.7);
+  opacity: 0.5;
+  filter: brightness(0.6) blur(1px);
+}
+
+.coverflow-slide.next-2 {
+  z-index: 4;
+  transform: translateX(160%) rotateY(-35deg) translateZ(-200px) scale(0.7);
+  opacity: 0.5;
+  filter: brightness(0.6) blur(1px);
+}
+
+.coverflow-slide.far-left,
+.coverflow-slide.far-right {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Modern Card Design */
+.show-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--card-radius);
+  background-color: #191414; /* Match Spotify's black */
+  overflow: hidden;
+  height: auto; /* Let content determine height */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+  line-height: 1; /* Control overall line height */
+}
+
+/* Base active card styles */
+.active .show-card {
+  transform: translateY(-5px);
+}
+
+/* Base hover effect that will be overridden by program-specific ones */
+.active .show-card:hover {
+  transform: translateY(-8px);
+}
+
+/* Card Image Section */
+.show-image {
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  line-height: 0; /* Removes line-height spacing */
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+}
+
+.show-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: none; /* Remove gradient overlay */
+  pointer-events: none;
+  z-index: 1;
+}
+
+.show-image iframe {
+  width: 100%;
+  height: 352px; /* Default height for desktop */
+  border: none;
+  position: relative;
+  z-index: 0;
+  display: block; /* Removes extra space below inline elements */
+  margin-bottom: 0;
+  aspect-ratio: 1 / 1; /* Maintain a square aspect ratio */
+  max-height: 100%; /* Ensure it doesn't overflow its container */
+}
+
+/* Modern Content Area */
+.show-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: #191414; /* Spotify's standard black background color */
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+  border-radius: 0 0 var(--card-radius) var(--card-radius);
+}
+
+/* Content Styles */
+.show-title {
+  font-family: 'Inter', 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  margin: 0 0 12px 0;
+  color: var(--text-light);
+  letter-spacing: -0.02em;
+}
+
+.show-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: auto;
+  flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  font-weight: 400;
+}
+
+/* Modern Play Button */
+.play-now {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-light) !important;
+  padding: 8px 0;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.play-now::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.play-now:hover {
+  opacity: 1;
+}
+
+.play-now:hover::after {
+  width: 100%;
+}
+
+.play-now svg {
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.play-now:hover svg {
+  transform: translateX(3px);
+}
+
+/* Modern Navigation Buttons */
+.coverflow-carousel-container .prev-btn,
+.coverflow-carousel-container .next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.coverflow-carousel-container .prev-btn {
+  left: 20px;
+}
+
+.coverflow-carousel-container .next-btn {
+  right: 20px;
+}
+
+.coverflow-carousel-container .prev-btn svg,
+.coverflow-carousel-container .next-btn svg {
+  stroke: var(--text-light);
+  transition: transform 0.3s ease;
+}
+
+.coverflow-carousel-container .prev-btn:hover,
+.coverflow-carousel-container .next-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.coverflow-carousel-container .prev-btn:hover svg {
+  transform: translateX(-3px);
+}
+
+.coverflow-carousel-container .next-btn:hover svg {
+  transform: translateX(3px);
+}
+
+/* Modern Indicator Dots */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  right: 0;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.dot.active {
+  background-color: var(--text-light);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* Program-Specific Color Accents for "SE EPISODER" text */
+.coverflow-slide[data-program="uni-liv"] .play-now {
+  color: var(--uni-liv-color) !important;
+}
+
+.coverflow-slide[data-program="pjaek"] .play-now {
+  color: var(--pjaek-color) !important;
+}
+
+.coverflow-slide[data-program="den-abne"] .play-now {
+  color: var(--den-abne-color) !important;
+}
+
+.coverflow-slide[data-program="ufp"] .play-now {
+  color: var(--ufp-color) !important;
+}
+
+/* Program-Specific Card Glows */
+.coverflow-slide[data-program="uni-liv"].active .show-card {
+  box-shadow: 0 0 30px rgba(201, 21, 30, 0.35), 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.coverflow-slide[data-program="pjaek"].active .show-card {
+  box-shadow: 0 0 30px rgba(204, 52, 139, 0.35), 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.coverflow-slide[data-program="den-abne"].active .show-card {
+  box-shadow: 0 0 30px rgba(200, 146, 44, 0.35), 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.coverflow-slide[data-program="ufp"].active .show-card {
+  box-shadow: 0 0 30px rgba(0, 45, 91, 0.35), 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced hover effects with program-specific colors */
+.coverflow-slide[data-program="uni-liv"].active .show-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 40px rgba(201, 21, 30, 0.5), 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.coverflow-slide[data-program="pjaek"].active .show-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 40px rgba(204, 52, 139, 0.5), 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.coverflow-slide[data-program="den-abne"].active .show-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 40px rgba(200, 146, 44, 0.5), 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.coverflow-slide[data-program="ufp"].active .show-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 40px rgba(0, 45, 91, 0.5), 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .coverflow-carousel-container {
+    height: 580px;
+    padding: 60px 0;
+  }
+  
+  .coverflow-slide {
+    width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .coverflow-carousel-container {
+    height: 520px;
+    padding: 50px 0;
+  }
+  
+  .coverflow-slide {
+    width: 280px;
+  }
+  
+  .coverflow-slide.prev {
+    transform: translateX(-70%) rotateY(20deg) translateZ(-80px) scale(0.8);
+  }
+  
+  .coverflow-slide.next {
+    transform: translateX(70%) rotateY(-20deg) translateZ(-80px) scale(0.8);
+  }
+  
+  .coverflow-carousel-container .prev-btn,
+  .coverflow-carousel-container .next-btn {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .show-image iframe {
+    height: 300px; /* Reduced height for tablets */
+  }
+}
+
+@media (max-width: 576px) {
+  .coverflow-carousel-container {
+    height: 480px;
+    padding: 40px 0;
+  }
+  
+  .coverflow-slide {
+    width: 260px;
+  }
+  
+  .show-title {
+    font-size: 18px;
+  }
+  
+  .show-description {
+    font-size: 13px;
+    -webkit-line-clamp: 2;
+  }
+
+  .coverflow-slide.prev,
+  .coverflow-slide.next {
+    opacity: 0.4;
+  }
+
+  .coverflow-slide.prev-2,
+  .coverflow-slide.next-2 {
+    opacity: 0;
+  }
+  
+  .carousel-dots {
+    bottom: 5px;
+  }
+  
+  .coverflow-carousel-container .prev-btn,
+  .coverflow-carousel-container .next-btn {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .show-image iframe {
+    height: 250px; /* Further reduced height for mobile */
+  }
+  
+  .show-content {
+    padding: 16px; /* Less padding for mobile */
+  }
+}
+        </style>
     
 </head>
 <body>
@@ -1253,55 +1703,28 @@
                 <h2>VORES PROGRAMMER</h2>
                 <p>Udforsk vores alsidige udvalg af studieproducerede podcast-programmer, der dækker alt fra debat og kultur til videnskab og underholdning.</p>
             </div>
-            <div class="shows-grid">
-                <div class="show-card">
-                    <div class="show-image">
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/2EJrewktCX7msAhRAUyrzj?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                    <div class="show-content">
-                        <h3 class="show-title">UniLiv</h3>
-                        <p class="show-description">PLACEHOLDER</p>
-                        <div class="play-now" style="color: var(--uni-liv-color);">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                            </svg>
-                            Se Episoder
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="show-card">
-                    <div class="show-image">
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/6fbzL4lN39CuZAvktQhaf4?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                    <div class="show-content">
-                        <h3 class="show-title">PJÆK</h3>
-                        <p class="show-description">PLACEHOLDER</p>
-                        <div class="play-now" style="color: var(--pjaek-color);">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                            </svg>
-                            Se Episoder
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="show-card">
-                    <div class="show-image">
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/2caefOQ9XLNrvCNXGOmcxY?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                    <div class="show-content">
-                        <h3 class="show-title">DEN ÅBNE KANAL</h3>
-                        <p class="show-description">PLACEHOLDER</p>
-                        <div class="play-now" style="color: var(--den-abne-color);">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                            </svg>
-                            Se Episoder
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
+            <!-- Podcast Carousel Container -->
+<div class="coverflow-carousel-container">
+    <!-- Navigation Buttons -->
+    <button class="prev-btn" aria-label="Previous podcast">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    
+    <button class="next-btn" aria-label="Next podcast">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    
+    <!-- Carousel Track -->
+    <div class="coverflow-track"></div>
+    
+    <!-- Carousel Indicator Dots -->
+    <div class="carousel-dots"></div>
+  </div>
             
             <div style="text-align: center; margin-top: 4rem;">
                 <a href="#" class="cta-button" style="display: inline-flex; justify-content: center;">
@@ -1475,9 +1898,305 @@
                 const offset = index * 10;
                 const yPos = -(scrollPosition * speed) + offset;
                 
-                element.style.transform = `translateY(${yPos}px)`;
+               
             });
         });
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Program data with correct color schemes and data attributes
+    const programData = [
+        {
+            title: "PJÆK",
+            description: "PLACEHOLDER",
+            embedUrl: "https://open.spotify.com/embed/show/6fbzL4lN39CuZAvktQhaf4?utm_source=generator",
+            color: "var(--pjaek-color)",
+            dataAttr: "pjaek"
+        },
+        {
+            title: "DEN ÅBNE KANAL",
+            description: "PLACEHOLDER",
+            embedUrl: "https://open.spotify.com/embed/show/2caefOQ9XLNrvCNXGOmcxY?utm_source=generator",
+            color: "var(--den-abne-color)",
+            dataAttr: "den-abne"
+        },
+        {
+            title: "UNI LIV",
+            description: "PLACEHOLDER",
+            embedUrl: "https://open.spotify.com/embed/show/2EJrewktCX7msAhRAUyrzj?utm_source=generator",
+            color: "var(--uni-liv-color)",
+            dataAttr: "uni-liv"
+        },
+        {
+            title: "UDEN FOR PENSUM",
+            description: "PLACEHOLDER",
+            embedUrl: "https://open.spotify.com/embed/show/2nTK4FF2Mp3JBZQXxBsFkZ?utm_source=generator",
+            color: "var(--ufp-color)",
+            dataAttr: "ufp"
+
+            
+        }
+    ];
+    
+    initCoverflowCarousel(programData);
+    
+    function initCoverflowCarousel(programData) {
+        const coverflowTrack = document.querySelector('.coverflow-track');
+        const dotsContainer = document.querySelector('.carousel-dots');
+        const nextBtn = document.querySelector('.coverflow-carousel-container .next-btn');
+        const prevBtn = document.querySelector('.coverflow-carousel-container .prev-btn');
+        
+        if (!coverflowTrack) return;
+        
+        let currentIndex = 2; // Start with UNI LIV as the active card (index 2)
+        const totalSlides = programData.length;
+        let isAnimating = false;
+        
+        // Generate slides with modern styling
+        function generateSlides() {
+            coverflowTrack.innerHTML = '';
+            dotsContainer.innerHTML = '';
+            
+            programData.forEach((program, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'coverflow-slide';
+                slide.dataset.index = index;
+                slide.dataset.program = program.dataAttr;
+                
+                slide.innerHTML = `
+                    <div class="show-card">
+                        <div class="show-image">
+                            <iframe style="border-radius:12px" 
+                                    src="${program.embedUrl}" 
+                                    frameBorder="0" 
+                                    allowfullscreen="" 
+                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                    loading="lazy"></iframe>
+                        </div>
+                        <div class="show-content">
+                            <h3 class="show-title">${program.title}</h3>
+                            <p class="show-description">${program.description}</p>
+                            <div class="play-now">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                                SE EPISODER
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                coverflowTrack.appendChild(slide);
+                
+                // Create modern indicator dots
+                const dot = document.createElement('span');
+                dot.className = 'dot';
+                dot.dataset.index = index;
+                dotsContainer.appendChild(dot);
+                
+                // Add click event to dots with transition lock
+                dot.addEventListener('click', () => {
+                    if (!isAnimating && index !== currentIndex) {
+                        goToSlide(index);
+                    }
+                });
+                
+                // Add click event to slide with transition lock
+                slide.addEventListener('click', () => {
+                    if (!isAnimating && index !== currentIndex) {
+                        goToSlide(index);
+                    }
+                });
+            });
+        }
+        
+        // Update slide positions with smooth transitions
+        function updateSlidePositions() {
+            const slides = document.querySelectorAll('.coverflow-slide');
+            
+            slides.forEach(slide => {
+                // Clear all position classes
+                slide.classList.remove('active', 'prev', 'next', 'prev-2', 'next-2', 'far-left', 'far-right');
+                
+                const slideIndex = parseInt(slide.dataset.index);
+                const relativeDiff = getRelativePosition(slideIndex, currentIndex);
+                
+                // Add appropriate class based on relative position
+                if (relativeDiff === 0) {
+                    slide.classList.add('active');
+                } else if (relativeDiff === -1 || relativeDiff === totalSlides - 1) {
+                    slide.classList.add('prev');
+                } else if (relativeDiff === 1 || relativeDiff === -(totalSlides - 1)) {
+                    slide.classList.add('next');
+                } else if (relativeDiff === -2 || relativeDiff === totalSlides - 2) {
+                    slide.classList.add('prev-2');
+                } else if (relativeDiff === 2 || relativeDiff === -(totalSlides - 2)) {
+                    slide.classList.add('next-2');
+                } else if (relativeDiff < -2) {
+                    slide.classList.add('far-left');
+                } else if (relativeDiff > 2) {
+                    slide.classList.add('far-right');
+                }
+            });
+            
+            // Update dots with active state
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+        
+        function getRelativePosition(index, currentIndex) {
+            let diff = index - currentIndex;
+            
+            // Ensure we get the shortest path in the circular carousel
+            if (diff > totalSlides / 2) {
+                diff -= totalSlides;
+            } else if (diff < -totalSlides / 2) {
+                diff += totalSlides;
+            }
+            
+            return diff;
+        }
+        
+        // Enhanced slide transition with animation lock
+        function goToSlide(index) {
+            if (isAnimating) return;
+            isAnimating = true;
+            
+            currentIndex = index;
+            if (currentIndex < 0) currentIndex = totalSlides - 1;
+            if (currentIndex >= totalSlides) currentIndex = 0;
+            
+            updateSlidePositions();
+            
+            // Release animation lock after transition completes
+            setTimeout(() => {
+                isAnimating = false;
+            }, 500); // Match this to your CSS transition duration
+        }
+        
+        // Initialize carousel
+        generateSlides();
+        updateSlidePositions();
+        
+        // Add enhanced event listeners for buttons
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!isAnimating) {
+                goToSlide(currentIndex + 1);
+                resetAutoAdvance();
+            }
+        });
+        
+        prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!isAnimating) {
+                goToSlide(currentIndex - 1);
+                resetAutoAdvance();
+            }
+        });
+        
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                if (!isAnimating) {
+                    goToSlide(currentIndex - 1);
+                    resetAutoAdvance();
+                }
+            } else if (e.key === 'ArrowRight') {
+                if (!isAnimating) {
+                    goToSlide(currentIndex + 1);
+                    resetAutoAdvance();
+                }
+            }
+        });
+        
+        // Improved touch handling
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartTime = 0;
+        
+        coverflowTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartTime = new Date().getTime();
+            clearInterval(carouselInterval);
+        });
+        
+        coverflowTrack.addEventListener('touchend', (e) => {
+            if (isAnimating) return;
+            
+            touchEndX = e.changedTouches[0].screenX;
+            const touchEndTime = new Date().getTime();
+            
+            // Calculate swipe velocity for better user experience
+            const touchDuration = touchEndTime - touchStartTime;
+            const touchDistance = Math.abs(touchEndX - touchStartX);
+            const velocity = touchDistance / touchDuration;
+            
+            // Adjust threshold based on swipe velocity
+            const swipeThreshold = velocity > 0.5 ? 30 : 50;
+            
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swipe left (next)
+                goToSlide(currentIndex + 1);
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                // Swipe right (prev)
+                goToSlide(currentIndex - 1);
+            }
+            
+            resetAutoAdvance();
+        });
+        
+        // Auto-advance with reset functionality
+        let carouselInterval;
+        
+        function startAutoAdvance() {
+            carouselInterval = setInterval(() => {
+                if (!isAnimating) {
+                    goToSlide(currentIndex + 1);
+                }
+            }, 5000);
+        }
+        
+        function resetAutoAdvance() {
+            clearInterval(carouselInterval);
+            startAutoAdvance();
+        }
+        
+        // Start auto-advance
+        startAutoAdvance();
+        
+        // Pause auto-advance on hover for better UX
+        const carouselContainer = document.querySelector('.coverflow-carousel-container');
+        
+        carouselContainer.addEventListener('mouseenter', () => {
+            clearInterval(carouselInterval);
+        });
+        
+        carouselContainer.addEventListener('mouseleave', () => {
+            startAutoAdvance();
+        });
+        
+        // Optimize page visibility handling
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                clearInterval(carouselInterval);
+            } else {
+                startAutoAdvance();
+            }
+        });
+        
+        // Debounced resize handler for performance
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                updateSlidePositions();
+            }, 250);
+        });
+    }
+});
+        </script>
 </body>
 </html>
