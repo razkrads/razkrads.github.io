@@ -603,586 +603,690 @@
             z-index: 2;
         }
         
-        /* Updated border colors to match the podcast content order */
         .podcast-card:nth-child(1)::before {
-            background: var(--den-abne-color);
-        }
-        
-        .podcast-card:nth-child(2)::before {
-            background: var(--profundis-color);
-        }
-        
-        .podcast-card:nth-child(3)::before {
-            background: var(--uni-liv-color);
-        }
-        
-        .podcast-thumbnail {
-            width: 150px;
-            height: 150px;
-            overflow: hidden;
-            flex-shrink: 0;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            border-radius: 10px;
-        }
-        
-        .podcast-card:hover .podcast-thumbnail {
-            transform: scale(1.05) rotate(2deg);
-        }
-        
-        .podcast-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .podcast-title {
-            font-size: 1.7rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: var(--secondary);
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .podcast-title::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 60px;
-            height: 2px;
-            background: rgba(245, 245, 220, 0.3);
-            transition: width 0.3s ease;
-        }
-        
-        .podcast-card:hover .podcast-title::after {
-            width: 100%;
-        }
-        
-        .podcast-meta {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 1.2rem;
-            color: rgba(245, 245, 220, 0.6);
-            font-size: 0.85rem;
-            font-family: 'Space Mono', monospace;
-        }
-        
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .podcast-description {
-            color: rgba(245, 245, 220, 0.8);
-            margin-bottom: 1.5rem;
-            font-weight: 300;
-            flex-grow: 1;
-        }
-        
-        .play-now {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-family: 'Space Mono', monospace;
-            font-weight: 400;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            align-self: center;
-            margin-top: auto;
-        }
-        
-        .play-now::before {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: currentColor;
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .play-now:hover::before {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-        
-        .shows-section {
-            background-color: var(--dark);
-            padding-top: 8rem;
-            padding-bottom: 8rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .shows-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 200%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent 0%, rgba(10, 86, 0, 0.05) 25%, transparent 50%, rgba(10, 86, 0, 0.05) 75%, transparent 100%);
-            animation: gradientMove 15s linear infinite;
-        }
-        
-        @keyframes gradientMove {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-        
-        .shows-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 3rem;
-            position: relative;
-            z-index: 5;
-        }
-        
-        .show-card {
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--card-radius);
-  background-color: #191414; /* Match Spotify's black */
-  overflow: hidden;
-  height: auto; /* Let content determine height */
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.4s ease;
-  line-height: 1; /* Control overall line height */
+    background: var(--den-abne-color);
+}
+
+.podcast-card:nth-child(2)::before {
+    background: var(--profundis-color);
+}
+
+.podcast-card:nth-child(3)::before {
+    background: var(--uni-liv-color);
+}
+
+.podcast-thumbnail {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 10px;
+}
+
+.podcast-card:hover .podcast-thumbnail {
+    transform: scale(1.05) rotate(2deg);
+}
+
+.podcast-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.podcast-title {
+    font-size: 1.7rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    position: relative;
+    display: inline-block;
+}
+
+.podcast-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: rgba(245, 245, 220, 0.3);
+    transition: width 0.3s ease;
+}
+
+.podcast-card:hover .podcast-title::after {
+    width: 100%;
+}
+
+.podcast-meta {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.2rem;
+    color: rgba(245, 245, 220, 0.6);
+    font-size: 0.85rem;
+    font-family: 'Space Mono', monospace;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.podcast-description {
+    color: rgba(245, 245, 220, 0.8);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    flex-grow: 1;
+}
+
+.play-now {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    align-self: center;
+    margin-top: auto;
+}
+
+.play-now::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.play-now:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.shows-section {
+    background-color: var(--dark);
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.shows-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(10, 86, 0, 0.05) 25%, transparent 50%, rgba(10, 86, 0, 0.05) 75%, transparent 100%);
+    animation: gradientMove 15s linear infinite;
+}
+
+@keyframes gradientMove {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.shows-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 3rem;
+    position: relative;
+    z-index: 5;
+}
+
+.show-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--card-radius);
+    background-color: #191414; /* Match Spotify's black */
+    overflow: hidden;
+    height: auto; /* Let content determine height */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s ease;
+    line-height: 1; /* Control overall line height */
 }
 
 /* Base effect for active cards without program-specific color */
 .active .show-card {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
 }
 
 /* Base hover effect that will be overridden by program-specific ones */
 .active .show-card:hover {
-  transform: translateY(-8px);
+    transform: translateY(-8px);
 }
 
 /* Remove the general hover color reference that was causing issues */
 .active .show-card:hover {
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
 }
-        
-        .show-image {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        
-        .show-content {
-            padding: 1.5rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-        }
-        
-        .show-title {
-            font-size: 1.6rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            color: var(--secondary);
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
-        
-        .show-host {
-            font-size: 0.95rem;
-            color: rgba(245, 245, 220, 0.6);
-            margin-bottom: 1.5rem;
-            font-family: 'Space Mono', monospace;
-        }
-        
-        .show-description {
-            color: rgba(245, 245, 220, 0.8);
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-            font-weight: 300;
-            flex-grow: 1;
-        }
-        
-        .team-section {
-            background-color: var(--dark);
-            position: relative;
-            padding-top: 5rem;
-            overflow: hidden;
-        }
-        
-        .team-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary-darker) 0%, transparent 70%);
-            opacity: 0.07;
-        }
-        
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 4rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .team-member {
-            text-align: center;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .team-member:hover {
-            transform: translateY(-10px);
-        }
-        
-        .team-photo {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-            border-radius: 50%;
-        }
-        
-        .photo-inner {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            border-radius: 50%;
-        }
-        
-        .team-member:hover .photo-inner img {
-            transform: scale(1.05);
-        }
-        
-        .photo-inner img {
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
+
+.show-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.show-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.show-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.show-host {
+    font-size: 0.95rem;
+    color: rgba(245, 245, 220, 0.6);
+    margin-bottom: 1.5rem;
+    font-family: 'Space Mono', monospace;
+}
+
+.show-description {
+    color: rgba(245, 245, 220, 0.8);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    font-weight: 300;
+    flex-grow: 1;
+}
+
+/* Team Section with Mobile Carousel */
+.team-section {
+    background-color: var(--dark);
+    position: relative;
+    padding-top: 5rem;
+    overflow: hidden;
+}
+
+.team-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-darker) 0%, transparent 70%);
+    opacity: 0.07;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.team-member {
+    text-align: center;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+}
+
+.team-photo {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.photo-inner {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 50%;
+}
+
+.team-member:hover .photo-inner img {
+    transform: scale(1.05);
+}
+
+.photo-inner img {
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.team-member:hover .team-photo::after {
+    width: 100%;
+}
+
+.team-name {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    position: relative;
+}
+
+.team-role {
+    color: rgba(245, 245, 220, 0.7);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Space Mono', monospace;
+}
+
+.team-bio {
+    color: rgba(245, 245, 220, 0.8);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    max-width: 90%;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(245, 245, 220, 0.3);
+    background: transparent;
+    color: var(--secondary);
+}
+
+.social-link:hover {
+    background: var(--primary);
+    transform: translateY(-5px);
+    border-color: var(--primary);
+}
+
+/* Mobile Carousel Styles for Team Section */
+@media (max-width: 768px) {
+    .team-grid {
+        display: block;
+        position: relative;
+        overflow: hidden;
+        padding: 20px 0;
+    }
+    
+    /* Team Carousel Container */
+    .team-carousel {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+        padding: 10px 0 30px;
+    }
+    
+    /* Hide scrollbar */
+    .team-carousel::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+    
+    /* Team Member Card in Carousel */
+    .team-carousel .team-member {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+        margin: 0 auto;
+        padding: 20px 15px;
+        border-radius: 10px;
    
-        
-        .team-member:hover .team-photo::after {
-            width: 100%;
-        }
-        
-        .team-name {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            color: var(--secondary);
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-            position: relative;
-        }
-        
-        .team-role {
-            color: rgba(245, 245, 220, 0.7);
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: 'Space Mono', monospace;
-        }
-        
-        .team-bio {
-            color: rgba(245, 245, 220, 0.8);
-            margin-bottom: 1.5rem;
-            font-weight: 300;
-            max-width: 90%;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .social-link {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(245, 245, 220, 0.3);
-            background: transparent;
-            color: var(--secondary);
-        }
-        
-        .social-link:hover {
-            background: var(--primary);
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-        
-        footer {
-            background-color: var(--primary-darker);
-            color: var(--secondary);
-            padding: 5rem 0 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--primary);
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 4rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .footer-column h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            color: var(--secondary);
-            position: relative;
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
-        
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -10px;
-            width: 30px;
-            height: 2px;
-            background: var(--secondary);
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 1rem;
-        }
-        
-        .footer-links a {
-            color: rgba(245, 245, 220, 0.7);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-block;
-            position: relative;
-            padding-left: 0;
-        }
-        
-        .footer-links a::before {
-            content: '→';
-            position: absolute;
-            left: -20px;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            color: var(--secondary);
-            padding-left: 20px;
-        }
-        
-        .footer-links a:hover::before {
-            opacity: 1;
-            left: 0;
-        }
-        
-        .contact-item {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 1.5rem;
-            color: rgba(245, 245, 220, 0.7);
-            transition: all 0.3s ease;
-        }
-        
-        .contact-item:hover {
-            color: var(--secondary);
-        }
-        
-        .contact-icon {
-            flex-shrink: 0;
-            color: var(--secondary);
-        }
-        
-        .footer-bottom {
-            margin-top: 5rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(245, 245, 220, 0.1);
-            text-align: center;
-            color: rgba(245, 245, 220, 0.5);
-            font-size: 0.9rem;
-            font-family: 'Space Mono', monospace;
-            letter-spacing: 1px;
-        }
-        
-        @media (max-width: 1024px) {
-            .hero-title {
-                font-size: 3.8rem;
-            }
-            
-            .section-title h2 {
-                font-size: 3rem;
-            }
-            
-            .podcast-list {
-                /* Optionally adjust for mid-sized screens if needed */
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 80%;
-                height: 100vh;
-                background: var(--primary-darker);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                padding: 3rem;
-                transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-                z-index: 99;
-            }
-            
-            .nav-links.active {
-                right: 0;
-            }
-            
-            .nav-links a {
-                font-size: 1.5rem;
-                margin: 1rem 0;
-            }
-            
-            .mobile-toggle {
-                display: block;
-                z-index: 100;
-            }
-            
-            .mobile-toggle.active .line:nth-child(1) {
-                transform: rotate(45deg) translate(5px, 9px);
-            }
-            
-            .mobile-toggle.active .line:nth-child(2) {
-                opacity: 0;
-            }
-            
-            .mobile-toggle.active .line:nth-child(3) {
-                transform: rotate(-45deg) translate(5px, -9px);
-            }
-            
-            .hero-content {
-                margin-left: 0;
-            }
-            
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .section-title h2 {
-                font-size: 2rem;
-            }
-            
-            /* Instead of altering .podcast-card, force the podcast list to a single column */
-            .podcast-list {
-                grid-template-columns: 1fr;
-            }
-            
-            .podcast-thumbnail {
-                width: 100%;
-                height: auto;
-                aspect-ratio: 1/1;
-                margin-bottom: 1.5rem;
-            }
-            
-            .team-grid {
-                gap: 3rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .hero-title {
-                font-size: 2rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1rem;
-                padding-left: 1rem;
-            }
-            
-            .cta-button {
-                padding: 0.8rem 1.5rem;
-                font-size: 0.9rem;
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .section-title h2 {
-                font-size: 1.8rem;
-            }
-            
-            .section-title p {
-                font-size: 1rem;
-                padding-left: 1rem;
-            }
-            
-            .shows-grid, .team-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .podcast-title {
-                font-size: 1.5rem;
-            }
-            
-            .podcast-meta {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .footer-content {
-                gap: 2.5rem;
-            }
-        }
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        max-width: 300px;
+    }
+    
+    .team-carousel .team-member:hover {
+        transform: translateY(-5px);
+        background-color: rgba(255, 255, 255, 0.08);
+        border-color: var(--primary);
+    }
+    
+    /* Adjust photo size for carousel */
+    .team-carousel .team-photo {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Carousel navigation dots */
+    .carousel-dots {
+        display: flex;
+        justify-content: center;
+        margin: 15px auto;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .carousel-dot {
+        width: 8px;
+        height: 8px;
+        margin: 0 5px;
+        border-radius: 50%;
+        background-color: rgba(245, 245, 220, 0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .carousel-dot.active {
+        background-color: var(--primary);
+        width: 24px;
+        border-radius: 4px;
+    }
+    
+    /* Adjust text sizes for mobile */
+    .team-carousel .team-name {
+        font-size: 1.7rem;
+    }
+    
+    .team-carousel .team-role {
+        font-size: 0.8rem;
+    }
+    
+    .team-carousel .team-bio {
+        font-size: 0.95rem;
+        margin-bottom: 1.2rem;
+    }
+}
+
+footer {
+    background-color: var(--primary-darker);
+    color: var(--secondary);
+    padding: 5rem 0 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--primary);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-column h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--secondary);
+    position: relative;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.footer-column h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 30px;
+    height: 2px;
+    background: var(--secondary);
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 1rem;
+}
+
+.footer-links a {
+    color: rgba(245, 245, 220, 0.7);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    position: relative;
+    padding-left: 0;
+}
+
+.footer-links a::before {
+    content: '→';
+    position: absolute;
+    left: -20px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--secondary);
+    padding-left: 20px;
+}
+
+.footer-links a:hover::before {
+    opacity: 1;
+    left: 0;
+}
+
+.contact-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 1.5rem;
+    color: rgba(245, 245, 220, 0.7);
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+    color: var(--secondary);
+}
+
+.contact-icon {
+    flex-shrink: 0;
+    color: var(--secondary);
+}
+
+.footer-bottom {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(245, 245, 220, 0.1);
+    text-align: center;
+    color: rgba(245, 245, 220, 0.5);
+    font-size: 0.9rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 1024px) {
+    .hero-title {
+        font-size: 3.8rem;
+    }
+    
+    .section-title h2 {
+        font-size: 3rem;
+    }
+    
+    .podcast-list {
+        /* Optionally adjust for mid-sized screens if needed */
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        height: 100vh;
+        background: var(--primary-darker);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 3rem;
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 99;
+    }
+    
+    .nav-links.active {
+        right: 0;
+    }
+    
+    .nav-links a {
+        font-size: 1.5rem;
+        margin: 1rem 0;
+    }
+    
+    .mobile-toggle {
+        display: block;
+        z-index: 100;
+    }
+    
+    .mobile-toggle.active .line:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 9px);
+    }
+    
+    .mobile-toggle.active .line:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .mobile-toggle.active .line:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -9px);
+    }
+    
+    .hero-content {
+        margin-left: 0;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .section-title h2 {
+        font-size: 2rem;
+    }
+    
+    /* Instead of altering .podcast-card, force the podcast list to a single column */
+    .podcast-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .podcast-thumbnail {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1/1;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        padding-left: 1rem;
+    }
+    
+    .cta-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .section-title h2 {
+        font-size: 1.8rem;
+    }
+    
+    .section-title p {
+        font-size: 1rem;
+        padding-left: 1rem;
+    }
+    
+    .shows-grid, .team-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .podcast-title {
+        font-size: 1.5rem;
+    }
+    
+    .podcast-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .footer-content {
+        gap: 2.5rem;
+    }
+    
+    /* Additional mobile styles for team carousel */
+    .team-carousel .team-member {
+        flex: 0 0 90%;
+        padding: 15px 10px;
+    }
+    
+    .team-carousel .team-photo {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .team-carousel .team-name {
+        font-size: 1.5rem;
+    }
+    
+    .team-carousel .team-bio {
+        font-size: 0.9rem;
+    }
+}
     </style>
     <style>
 /* Modern Carousel Variables */
@@ -2198,5 +2302,133 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
         </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Only initialize carousel on mobile devices
+    if (window.innerWidth <= 768) {
+        initTeamCarousel();
+    }
+    
+    // Check on resize if we need to initialize or destroy carousel
+    window.addEventListener('resize', function() {
+        if (window.innerWidth <= 768) {
+            if (!document.querySelector('.team-carousel')) {
+                initTeamCarousel();
+            }
+        } else {
+            const carousel = document.querySelector('.team-carousel');
+            if (carousel) {
+                // Revert back to grid layout
+                const teamGrid = document.querySelector('.team-grid');
+                const carouselDots = document.querySelector('.carousel-dots');
+                
+                // Move team members back to grid
+                while (carousel.firstChild) {
+                    teamGrid.appendChild(carousel.firstChild);
+                }
+                
+                // Remove carousel wrapper and dots
+                carousel.remove();
+                if (carouselDots) carouselDots.remove();
+            }
+        }
+    });
+    
+    function initTeamCarousel() {
+        const teamGrid = document.querySelector('.team-grid');
+        if (!teamGrid) return;
+        
+        // Check if carousel is already initialized
+        if (document.querySelector('.team-carousel')) return;
+        
+        // Create carousel container
+        const carousel = document.createElement('div');
+        carousel.className = 'team-carousel';
+        
+        // Move team members into carousel
+        const teamMembers = Array.from(teamGrid.querySelectorAll('.team-member'));
+        
+        teamMembers.forEach(member => {
+            carousel.appendChild(member);
+        });
+        
+        // Add carousel to team grid
+        teamGrid.appendChild(carousel);
+        
+        // Create dots container
+        const dotsContainer = document.createElement('div');
+        dotsContainer.className = 'carousel-dots';
+        
+        // Add dots for each team member
+        teamMembers.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+            dot.dataset.index = index;
+            
+            dot.addEventListener('click', function() {
+                const memberIndex = this.dataset.index;
+                const memberElement = carousel.children[memberIndex];
+                
+                // Scroll to the team member
+                memberElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest',
+                    inline: 'center'
+                });
+                
+                // Update active dot
+                document.querySelectorAll('.carousel-dot').forEach(d => {
+                    d.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+            
+            dotsContainer.appendChild(dot);
+        });
+        
+        // Add dots container after team grid
+        teamGrid.after(dotsContainer);
+        
+        // Add scroll event listener to update active dot
+        carousel.addEventListener('scroll', function() {
+            // Use debounced function to avoid performance issues
+            clearTimeout(carousel.scrollTimer);
+            carousel.scrollTimer = setTimeout(function() {
+                updateActiveDot(carousel, dotsContainer);
+            }, 100);
+        });
+        
+        // Initial scroll to first item (fixes some mobile browser display issues)
+        if (teamMembers.length > 0) {
+            setTimeout(() => {
+                teamMembers[0].scrollIntoView({ 
+                    behavior: 'auto', 
+                    block: 'nearest',
+                    inline: 'center'
+                });
+            }, 100);
+        }
+    }
+    
+    function updateActiveDot(carousel, dotsContainer) {
+        const scrollPosition = carousel.scrollLeft;
+        const carouselWidth = carousel.offsetWidth;
+        const itemWidth = carousel.querySelector('.team-member').offsetWidth;
+        const centerPosition = scrollPosition + (carouselWidth / 2);
+        const activeIndex = Math.round(centerPosition / itemWidth - 0.5);
+        
+        // Update active dot
+        const dots = dotsContainer.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, index) => {
+            if (index === activeIndex) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+});
+</script>
 </body>
 </html>
