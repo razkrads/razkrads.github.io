@@ -1939,6 +1939,11 @@ footer::before {
         flex-direction: column;
         height: 100%;
         position: relative;
+        padding: 20px;
+      }
+
+      .blog-post-thumbnail {
+        padding: 5px;
       }
     
       .blog-post:hover {
@@ -3346,12 +3351,9 @@ async function fetchBlogPosts() {
       const postElement = document.createElement("div");
       postElement.className = "blog-post";
       postElement.innerHTML = `
-        <div class="blog-post-thumbnail">
-          <img src="${post.image || 'default-image.jpg'}" alt="${post.title}">
-        </div>
         <div class="blog-post-content">
           <h3>${post.title}</h3>
-          <p>${post.body.substring(0, 100)}...</p> <!-- Excerpt from body -->
+          <p>${post.body.substring(0, 400)}...</p> <!-- Excerpt from body -->
           <a href="post.html?file=${post.filename}" class="read-more">Læs mere</a>
         </div>
       `;
