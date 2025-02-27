@@ -1,150 +1,116 @@
-/* Blog Section Styles */
-.blog-section {
-    min-height: 100vh;
-    background-color: var(--dark);
-    position: relative;
-    overflow: hidden;
-    padding: 80px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.blog-post {
+  background-color: rgba(10, 86, 0, 0.1); /* Light green background */
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.blog-post:hover {
+  border-left-color: var(--primary); /* Green accent from your theme */
+  box-shadow: 0 5px 15px rgba(7, 63, 0, 0.15);
+}
+
+.blog-post-content, .blog-post-full {
+  padding: 1.5rem;
+}
+
+.blog-post h3 {
+  font-family: 'Space Mono', monospace;
+  color: var(--primary); /* Dark green from your theme */
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.post-date {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--primary-darker); /* Darker green for subtle text */
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.post-description {
+  margin-bottom: 1.5rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.post-body {
+  margin: 1.5rem 0;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+/* Style for "Læs mere" and "Læs mindre" buttons */
+.read-more-btn, .read-less-btn {
+  background-color: var(--primary); /* Green from your theme */
+  color: var(--secondary); /* Cream/ivory for contrast */
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 30px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.read-more-btn:hover, .read-less-btn:hover {
+  background-color: var(--primary-darker); /* Darker green on hover */
+  transform: translateY(-2px);
+}
+
+.read-more-btn:after {
+  content: "→";
+  margin-left: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.read-more-btn:hover:after {
+  transform: translateX(3px);
+}
+
+.read-less-btn:before {
+  content: "←";
+  margin-right: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.read-less-btn:hover:before {
+  transform: translateX(-3px);
+}
+
+/* Animation when expanding posts */
+.blog-post-full {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .blog-post h3 {
+      font-size: 1.3rem;
   }
   
-  .blog-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(10, 86, 0, 0.08) 0%, transparent 70%);
+  .blog-post-content, .blog-post-full {
+      padding: 1.2rem;
   }
-  
-  .blog-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2.5rem;
-    position: relative;
-    z-index: 2;
-    margin-bottom: 3rem;
-  }
-  
-  /* Loading Indicator */
-  .loading-posts {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 0;
-    color: var(--secondary);
-  }
-  
-  .loading-posts .spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(245, 245, 220, 0.3);
-    border-radius: 50%;
-    border-top-color: var(--primary);
-    animation: spin 1s infinite ease-in-out;
-    margin-bottom: 1rem;
-  }
-  
-  /* Post Card Styles */
-  .blog-post {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    position: relative;
-    padding: 20px;
-  }
-  
-  .blog-post-thumbnail {
-    padding: 5px;
-  }
-  
-  .blog-post:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .blog-post::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 5px;
-    height: 100%;
-    background: var(--primary);
-    z-index: 1;
-  }
-  
-  .blog-post-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  
-  .blog-post-content h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: var(--secondary);
-    text-transform: uppercase;
-    letter-spacing: -0.5px;
-    line-height: 1.2;
-  }
-  
-  .blog-post-content p {
-    color: rgba(245, 245, 220, 0.8);
-    margin-bottom: 1.5rem;
-    font-weight: 300;
-    flex-grow: 1;
-  }
-  
-  .read-more {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Space Mono', monospace;
-    font-weight: 400;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    color: var(--primary);
-    margin-top: auto;
-    align-self: flex-start;
-    text-decoration: none;
-  }
-  
-  .read-more::after {
-    content: '→';
-    margin-left: 5px;
-    transition: transform 0.3s ease;
-  }
-  
-  .read-more:hover::after {
-    transform: translateX(3px);
-  }
-  
-  /* No Posts Found */
-  .no-posts {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 3rem 0;
-    color: rgba(245, 245, 220, 0.5);
-    font-style: italic;
-  }
-  
+}
   /* Team Section Styles */
   .team-section {
     min-height: 100vh;
