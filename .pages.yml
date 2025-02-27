@@ -4,7 +4,7 @@ media:
 content:
   - name: posts
     label: Posts
-    type: collection
+    type: file
     path: 'src/posts'
     view:
       fields: [ title, published, date ]
