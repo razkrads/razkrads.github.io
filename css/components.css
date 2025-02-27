@@ -1,0 +1,407 @@
+/* Blog Section Styles */
+.blog-section {
+    min-height: 100vh;
+    background-color: var(--dark);
+    position: relative;
+    overflow: hidden;
+    padding: 80px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .blog-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(10, 86, 0, 0.08) 0%, transparent 70%);
+  }
+  
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2.5rem;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 3rem;
+  }
+  
+  /* Loading Indicator */
+  .loading-posts {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+    color: var(--secondary);
+  }
+  
+  .loading-posts .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(245, 245, 220, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 1s infinite ease-in-out;
+    margin-bottom: 1rem;
+  }
+  
+  /* Post Card Styles */
+  .blog-post {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    padding: 20px;
+  }
+  
+  .blog-post-thumbnail {
+    padding: 5px;
+  }
+  
+  .blog-post:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .blog-post::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--primary);
+    z-index: 1;
+  }
+  
+  .blog-post-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .blog-post-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+  
+  .blog-post-content p {
+    color: rgba(245, 245, 220, 0.8);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    flex-grow: 1;
+  }
+  
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: var(--primary);
+    margin-top: auto;
+    align-self: flex-start;
+    text-decoration: none;
+  }
+  
+  .read-more::after {
+    content: '→';
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+  }
+  
+  .read-more:hover::after {
+    transform: translateX(3px);
+  }
+  
+  /* No Posts Found */
+  .no-posts {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 0;
+    color: rgba(245, 245, 220, 0.5);
+    font-style: italic;
+  }
+  
+  /* Team Section Styles */
+  .team-section {
+    min-height: 100vh;
+    background-color: var(--dark);
+    position: relative;
+    padding: 80px 0;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .team-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-darker) 0%, transparent 70%);
+    opacity: 0.07;
+  }
+  
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    position: relative;
+    z-index: 1;
+    margin-top: 2rem;
+  }
+  
+  .team-member {
+    text-align: center;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+  }
+  
+  .team-member:hover {
+    transform: translateY(-10px);
+  }
+  
+  .team-photo {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  
+  .photo-inner {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 50%;
+  }
+  
+  .team-member:hover .photo-inner img {
+    transform: scale(1.05);
+  }
+  
+  .photo-inner img {
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: var(--primary);
+    color: white;
+  }
+  
+  .team-member:hover .team-photo::after {
+    width: 100%;
+  }
+  
+  .team-name {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    position: relative;
+  }
+  
+  .team-role {
+    color: rgba(245, 245, 220, 0.7);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Space Mono', monospace;
+  }
+  
+  .team-bio {
+    color: rgba(245, 245, 220, 0.8);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    max-width: 90%;
+  }
+  
+  /* Modal overlay */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 3000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+  }
+  
+  /* Modal content styled to match your dark theme */
+  .modal-content {
+    background-color: var(--dark);
+    margin: 5% auto;
+    padding: 2rem;
+    max-width: 1000px;
+    border-radius: 12px;
+    position: relative;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  
+  /* Close button */
+  .close-modal {
+    position: sticky;
+    top: 0;
+    right: 15px;
+    font-size: 2rem;
+    color: var(--secondary);
+    cursor: pointer;
+    z-index: 50;
+    float: right;
+    line-height: 1;
+  }
+  
+  .close-modal:hover {
+    color: var(--light);
+  }
+  
+  /* Board grid layout within the modal */
+  .board-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 992px) {
+    .blog-grid {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .blog-section,
+    .team-section {
+      padding: 70px 0;
+    }
+    
+    .blog-grid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    /* Fix team grid on mobile */
+    .team-grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .team-member {
+      flex: 0 0 80%;
+      min-width: 250px;
+      scroll-snap-align: center;
+      padding: 1rem;
+    }
+    
+    .team-photo {
+      width: 140px;
+      height: 140px;
+    }
+    
+    .modal-content {
+      margin: 10% auto;
+      padding: 1.5rem;
+      max-width: 95%;
+      max-height: 80vh;
+    }
+    
+    .board-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .close-modal {
+      font-size: 1.8rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .blog-section,
+    .team-section {
+      padding: 60px 0;
+    }
+    
+    .blog-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .blog-post-content h3 {
+      font-size: 1.3rem;
+    }
+    
+    .team-member {
+      flex: 0 0 85%;
+    }
+    
+    .team-photo {
+      width: 120px;
+      height: 120px;
+    }
+    
+    .team-name {
+      font-size: 1.5rem;
+    }
+    
+    .modal-content {
+      margin: 15% auto;
+      padding: 1.25rem;
+      max-width: 95%;
+    }
+    
+    .board-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    
+    .close-modal {
+      font-size: 1.5rem;
+    }
+  }
