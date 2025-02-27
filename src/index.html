@@ -3311,127 +3311,265 @@ footer::before {
                 </script>
                 <!-- FOR BLOG POSTS -->
                 <script>
-                  // Add this to a <script> tag at the end of your body or in a separate JS file
+                 // Add this to a <script> tag at the end of your body or in a separate JS file
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Create a debug area on the page
-  const debugArea = document.createElement('div');
-  debugArea.style.backgroundColor = '#1a1a1a';
-  debugArea.style.color = '#80FF80';
-  debugArea.style.padding = '20px';
-  debugArea.style.margin = '20px 0';
-  debugArea.style.borderRadius = '8px';
-  debugArea.style.fontFamily = 'monospace';
-  debugArea.style.fontSize = '14px';
-  debugArea.style.whiteSpace = 'pre-wrap';
-  debugArea.style.overflow = 'auto';
-  debugArea.style.maxHeight = '400px';
-  debugArea.innerHTML = "<h3>Debug: Checking _posts Directory</h3><p>Loading...</p>";
+  // Load blog posts for the blog section
+  loadBlogPosts();
   
-  // Insert it after the blog posts container if it exists, otherwise at the end of body
-  const container = document.getElementById('blog-posts-container') || document.body;
-  container.parentNode.insertBefore(debugArea, container.nextSibling);
-  
-  // Try to fetch the directory listing
-  logMessage(debugArea, "Attempting to fetch directory listing from /_posts/...");
-  
-  fetch('/_posts/')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Failed to fetch directory listing: ${response.status} ${response.statusText}`);
-      }
-      logMessage(debugArea, `Directory fetch successful with status: ${response.status}`);
-      return response.text();
-    })
-    .then(html => {
-      // Parse the HTML to find links to markdown files
-      logMessage(debugArea, "Parsing directory listing HTML...");
-      
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const links = doc.querySelectorAll('a');
-      
-      // Save all links for debugging
-      const allLinks = Array.from(links).map(link => link.getAttribute('href'));
-      logMessage(debugArea, `Found ${allLinks.length} links in total:\n${JSON.stringify(allLinks, null, 2)}`);
-      
-      // Filter for markdown files
-      const mdFiles = allLinks.filter(href => href && href.endsWith('.md'));
-      
-      if (mdFiles.length > 0) {
-        logMessage(debugArea, `SUCCESS! Found ${mdFiles.length} Markdown files:\n${JSON.stringify(mdFiles, null, 2)}`);
-        
-        // Try to fetch the first file to verify we can access it
-        if (mdFiles.length > 0) {
-          const firstFile = mdFiles[0];
-          logMessage(debugArea, `Attempting to fetch the first file: ${firstFile}...`);
-          
-          return fetch(`/_posts/${firstFile}`)
-            .then(resp => {
-              if (!resp.ok) throw new Error(`Failed to fetch file: ${resp.status}`);
-              return resp.text();
-            })
-            .then(content => {
-              logMessage(debugArea, `Successfully fetched file! First 100 characters:\n${content.substring(0, 100)}...`);
-            })
-            .catch(err => {
-              logMessage(debugArea, `Error fetching file: ${err.message}`, true);
-            });
-        }
-      } else {
-        logMessage(debugArea, "No Markdown files found in the directory listing.", true);
-        
-        // If no files found, try known file
-        tryKnownFile(debugArea);
-      }
-    })
-    .catch(error => {
-      logMessage(debugArea, `Error with directory listing: ${error.message}`, true);
-      
-      // If directory listing fails, try a known file
-      tryKnownFile(debugArea);
-    });
+  // Update team member information from JSON files
+  updateTeamMemberInfo();
 });
 
-function tryKnownFile(debugArea) {
-  // Try to fetch a specific file we know exists
-  const knownFile = '2025-02-27-chefredaktor.md';
-  logMessage(debugArea, `Trying to fetch a known file: ${knownFile}...`);
+async function loadBlogPosts() {
+  const postsContainer = document.getElementById('blog-posts-container');
   
-  fetch(`/_posts/${knownFile}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Failed to fetch known file: ${response.status}`);
+  if (!postsContainer) return;
+  
+  // Initially show loading indicator
+  postsContainer.innerHTML = `
+    <div class="loading-posts">
+      <div class="spinner"></div>
+      <span>Indlæser indlæg...</span>
+    </div>
+  `;
+  
+  try {
+    // Try to fetch the directory listing from the posts directory
+    const response = await fetch('./posts/');
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch posts directory: ${response.status}`);
+    }
+    
+    const html = await response.text();
+    
+    // Parse the HTML to find JSON files
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const links = doc.querySelectorAll('a');
+    
+    // Extract JSON files or MD files with JSON content
+    const postFiles = Array.from(links)
+                      .map(link => link.getAttribute('href'))
+                      .filter(href => href && (href.endsWith('.json') || href.endsWith('.md')));
+    
+    // If no post files found
+    if (postFiles.length === 0) {
+      postsContainer.innerHTML = '<div class="no-posts">Ingen indlæg fundet</div>';
+      return;
+    }
+    
+    // Clear loading indicator
+    postsContainer.innerHTML = '';
+    
+    // Process each post
+    const processedPosts = [];
+    
+    for (const filename of postFiles) {
+      try {
+        // Make sure we're working with just the filename, not the full path
+        const bareFilename = filename.split('/').pop();
+        
+        // Fetch the content of the file
+        const fileResponse = await fetch(`./posts/${bareFilename}`);
+        
+        if (!fileResponse.ok) {
+          console.warn(`Failed to fetch post: ${bareFilename}`);
+          continue;
+        }
+        
+        const content = await fileResponse.text();
+        
+        // Parse content as JSON
+        let postData;
+        try {
+          // Try to parse as JSON
+          postData = JSON.parse(content.replace(/<userStyle>.*<\/userStyle>/s, ''));
+        } catch (jsonError) {
+          console.warn(`File ${bareFilename} is not valid JSON, skipping`);
+          continue;
+        }
+        
+        // Skip unpublished posts
+        if (postData.published === false) {
+          continue;
+        }
+        
+        // Extract date from filename or post data
+        let postDate;
+        
+        // First try the date from post data
+        if (postData.date) {
+          postDate = new Date(postData.date);
+        } 
+        // Then try extracting from filename (assumes YYYY-MM-DD-title format)
+        else {
+          const dateMatch = bareFilename.match(/^(\d{4}-\d{2}-\d{2})/);
+          if (dateMatch) {
+            postDate = new Date(dateMatch[1]);
+          } else {
+            // If no date found, use current date
+            postDate = new Date();
+          }
+        }
+        
+        // Format date as "DD MMM YYYY" in Danish
+        const formattedDate = new Intl.DateTimeFormat('da-DK', {
+          day: 'numeric',
+          month: 'short', 
+          year: 'numeric'
+        }).format(postDate);
+        
+        // Create post element
+        const postElement = createPostElement(postData, formattedDate, bareFilename);
+        
+        processedPosts.push({
+          date: postDate,
+          element: postElement
+        });
+        
+      } catch (error) {
+        console.error(`Error processing post ${filename}:`, error);
       }
-      logMessage(debugArea, "Successfully fetched known file!");
-      return response.text();
-    })
-    .then(content => {
-      logMessage(debugArea, `File content (first 100 chars):\n${content.substring(0, 100)}...`);
-    })
-    .catch(error => {
-      logMessage(debugArea, `Error fetching known file: ${error.message}`, true);
-    });
+    }
+    
+    // Sort posts by date (newest first)
+    processedPosts.sort((a, b) => b.date - a.date);
+    
+    // Display the posts (limit to 3 most recent)
+    const displayLimit = 3;
+    for (let i = 0; i < Math.min(displayLimit, processedPosts.length); i++) {
+      postsContainer.appendChild(processedPosts[i].element);
+    }
+    
+    // If no posts were successfully processed
+    if (processedPosts.length === 0) {
+      postsContainer.innerHTML = '<div class="no-posts">Ingen indlæg fundet</div>';
+    }
+    
+  } catch (error) {
+    console.error('Error loading blog posts:', error);
+    postsContainer.innerHTML = `
+      <div class="no-posts">
+        <p>Der opstod en fejl ved indlæsning af indlæg: ${error.message}</p>
+        <button onclick="loadBlogPosts()" class="retry-button">Prøv igen</button>
+      </div>
+    `;
+  }
 }
 
-function logMessage(element, message, isError = false) {
-  const timestamp = new Date().toLocaleTimeString();
-  const msgElement = document.createElement('div');
-  msgElement.style.marginBottom = '10px';
-  msgElement.style.color = isError ? '#FF8080' : '#80FF80';
-  msgElement.textContent = `[${timestamp}] ${message}`;
+function createPostElement(postData, formattedDate, filename) {
+  // Create post element
+  const postElement = document.createElement('article');
+  postElement.className = 'blog-post';
   
-  // Replace the "Loading..." message if it's still there
-  if (element.querySelector('p') && element.querySelector('p').textContent === 'Loading...') {
-    element.querySelector('p').remove();
+  // Extract post title
+  const title = postData.title || 'Untitled Post';
+  
+  // Generate a slug from filename (remove date prefix and extension)
+  const slug = filename.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/\.(md|json)$/, '');
+  
+  // Extract excerpt from body
+  let excerpt = '';
+  if (postData.body) {
+    // Clean the content (remove HTML tags)
+    const contentWithoutHTML = postData.body.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
+    
+    // Get first 150 characters or first sentence
+    const firstSentenceMatch = contentWithoutHTML.match(/^(.{1,200}[.!?])\s/);
+    excerpt = firstSentenceMatch 
+      ? firstSentenceMatch[1] 
+      : contentWithoutHTML.substring(0, 150) + '...';
   }
   
-  element.appendChild(msgElement);
+  // Post HTML structure
+  postElement.innerHTML = `
+    <div class="post-thumbnail">
+      <img src="${postData.image || '/api/placeholder/800/450'}" alt="${title}">
+    </div>
+    <div class="post-content">
+      <div class="post-meta">
+        <div class="post-date">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          ${formattedDate}
+        </div>
+        ${postData.category ? `
+          <div class="post-category">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+              <line x1="7" y1="7" x2="7.01" y2="7"></line>
+            </svg>
+            ${postData.category}
+          </div>
+        ` : ''}
+      </div>
+      <h3 class="post-title">${title}</h3>
+      <div class="post-excerpt">${excerpt}</div>
+      <a href="/blog/${slug}" class="read-more">
+        Læs mere
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+  `;
   
-  // Scroll to bottom to show latest message
-  element.scrollTop = element.scrollHeight;
+  return postElement;
 }
-                </script>
+
+// Function to update team member info from JSON files
+async function updateTeamMemberInfo() {
+  // Dynamically update all team member elements
+  const teamMembers = document.querySelectorAll('.team-member');
+  
+  teamMembers.forEach(async member => {
+    const nameElement = member.querySelector('.team-name');
+    if (!nameElement) return;
+    
+    const nameText = nameElement.textContent.trim();
+    
+    // If this is Ulrik (the chefredaktør)
+    if (nameText.includes('ULRK BLACH PETERSEN') || nameText.toLowerCase().includes('ulrik')) {
+      try {
+        // Try to find and load the chefredaktør post
+        const response = await fetch('./posts/2025-02-27-chefredaktor.md');
+        if (response.ok) {
+          const content = await response.text();
+          
+          // Try to parse as JSON
+          try {
+            const data = JSON.parse(content.replace(/<userStyle>.*<\/userStyle>/s, ''));
+            
+            // Update elements
+            nameElement.textContent = data.body || nameText; // Use body content as name
+            
+            const roleElement = member.querySelector('.team-role');
+            if (roleElement && data.title) {
+              roleElement.textContent = data.title;
+            }
+            
+            const bioElement = member.querySelector('.team-bio');
+            if (bioElement && data.description) {
+              bioElement.textContent = data.description;
+            }
+          } catch (jsonError) {
+            console.warn('Could not parse file as JSON:', jsonError);
+          }
+        }
+      } catch (err) {
+        console.warn('Could not update team member from file:', err);
+      }
+    }
+  });
+}
+</script>
 <style>
     /* Style for the program description in the modal */
     .modal-program-description {
