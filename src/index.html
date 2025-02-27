@@ -3307,28 +3307,19 @@ footer::before {
                 </script>
                 <!-- FOR BLOG POSTS -->
                 <script>
-                  // Fetch the manifest file listing all post JSON files
-                  fetch('posts/posts.json')
-                    .then(response => response.json())
-                    .then(fileList => {
-                      // For each JSON file listed in the manifest, fetch its content
-                      fileList.forEach(fileName => {
-                        fetch(`posts/${fileName}`)
-                          .then(response => response.json())
-                          .then(data => {
-                            // Create a new element for the post
-                            const postElement = document.createElement('article');
-                            postElement.innerHTML = `
-                              <h3>${data.title}</h3>
-                              <p>${data.content}</p>
-                            `;
-                            // Append the new post element to the container
-                            document.getElementById('blog-posts-container').appendChild(postElement);
-                          })
-                          .catch(err => console.error('Error fetching post:', err));
-                      });
-                    })
-                    .catch(err => console.error('Error fetching posts manifest:', err));
+               async function fetchPosts() {
+  const response = await fetch('/src/posts/'); // Get directory listing (if allowed)
+  const files = await response.json(); // Convert to JSON
+  const posts = await Promise.all(
+    files.map(async (file) => {
+      const post = await fetch(`/src/posts/${file}`).then((res) => res.json());
+      return { ...post, filename: file };
+    })
+  );
+  console.log(posts);
+}
+fetchPosts();
+
                 </script>
                 
 <style>
