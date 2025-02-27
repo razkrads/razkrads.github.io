@@ -20,6 +20,9 @@ content:
       - name: title
         label: Title
         type: string
+      - name: description
+        label: Description
+        type: string
       - name: body
         label: Body
         type: rich-text
