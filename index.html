@@ -511,7 +511,6 @@
         }
         
         .section-title {
-            margin-bottom: 5rem;
             text-align: center;
             position: relative;
         }
@@ -722,8 +721,8 @@
 
 .shows-section {
     background-color: var(--dark);
-    padding-top: 8rem;
-    padding-bottom: 8rem;
+    padding-top: 4rem;
+    padding-bottom: 10rem;
     position: relative;
     overflow: hidden;
 }
@@ -828,6 +827,7 @@
     position: relative;
     padding-top: 5rem;
     overflow: hidden;
+    height: 100vh;
 }
 
 .team-section::before {
@@ -1804,9 +1804,8 @@ footer::before {
                 </a>
             </div>
         </div>
-        <div class="scroll-indicator">
-            <div class="scroll-text">Scroll Ned</div>
-            <div class="scroll-arrow"></div>
+        <div class="scroll-indicator" onclick="document.getElementById('programmer').scrollIntoView({ behavior: 'smooth' });">
+          <div class="scroll-arrow"></div>
         </div>
     </section>
 
@@ -1817,7 +1816,6 @@ footer::before {
         <div class="container">
             <div class="section-title">
                 <h2>VORES PROGRAMMER</h2>
-                <p>Udforsk vores alsidige udvalg af studieproducerede podcast-programmer, der dækker alt fra debat og kultur til videnskab og underholdning.</p>
             </div>
             
             <!-- Podcast Carousel Container -->
@@ -1848,6 +1846,9 @@ footer::before {
                 </a>
             </div> -->
         </div>
+        <div class="scroll-indicator" onclick="document.getElementById('blog').scrollIntoView({ behavior: 'smooth' });">
+          <div class="scroll-arrow"></div>
+        </div>
     </section>
     <section class="blog-section" id="blog">
       <div class="container">
@@ -1873,12 +1874,16 @@ footer::before {
           </a>
         </div>
       </div>
+      <div class="scroll-indicator" onclick="document.getElementById('team').scrollIntoView({ behavior: 'smooth' });">
+        <div class="scroll-arrow"></div>
+      </div>
     </section>
     
     
     <style>
       /* Blog Section Styles */
       .blog-section {
+        height: 100vh;
         background-color: var(--dark);
         position: relative;
         overflow: hidden;
@@ -2304,11 +2309,14 @@ footer::before {
           .team-section {
             background-color: var(--dark);
             padding: 5rem 1rem;
+            
           }
           .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            
+        margin-top: 100px;
           }
           .team-member {
             text-align: center;
@@ -2342,7 +2350,7 @@ footer::before {
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
             gap: 1rem;
-            padding-bottom: 1rem;
+            margin-top: 50px;
           }
           .team-member {
             flex: 0 0 80%;
